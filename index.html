@@ -4,7 +4,15 @@
 <meta name="robots" content="noindex, nofollow">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- BEGIN:head_title -->
 <title>I Charged My Geely EX5 for 4,000 Miles — and Paid Just £67</title>
+<meta property="og:title" content="I Charged My Geely EX5 for 4,000 Miles — and Paid Just £67">
+    <!-- END:head_title -->
+<meta name="description" content="Real-world home EV charging on Octopus Agile, tracked month by month using actual half-hourly prices.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="EV Energy Journal">
+<meta property="og:description" content="Real-world home EV charging on Octopus Agile, tracked month by month using actual half-hourly prices.">
+<meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -163,22 +171,7 @@
   }
 
   .entry{ margin-bottom:38px; }
-  .entry-month{
-    font-family:'Fraunces', serif;
-    font-size:20px;
-    font-weight:500;
-    color:var(--text);
-    margin-bottom:10px;
-  }
-  .entry-stats{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:14px;
-    margin-top:16px;
-  }
-  .entry-stats .cell .v{ font-family:'IBM Plex Mono', monospace; font-size:17px; font-weight:600; color:var(--amber); }
-  .entry-stats .cell .l{ font-size:11.5px; color:var(--text-dim); margin-top:3px; }
-  @media(max-width:520px){ .entry-stats{ grid-template-columns:repeat(2,1fr); } .stat-row{ grid-template-columns:1fr; } }
+  @media(max-width:520px){ .stat-row{ grid-template-columns:1fr; } }
 
   .callout{
     background:var(--surface);
@@ -396,38 +389,59 @@
     .tldr-side{ gap:18px; }
   }
 
-  /* --- Redesign: collapsible month entries --- */
-  .months-hint{ font-size:13.5px; color:var(--text-dim); margin:0 0 14px; }
-  details.aside.month{ padding:0 18px; }
-  details.aside.month summary{
-    display:flex;
-    flex-wrap:wrap;
-    align-items:center;
-    gap:10px 16px;
-    padding:16px 0;
-    color:var(--text);
+  /* --- Redesign: six-month prose grid (3x2 on desktop; collapsible cards on mobile only) --- */
+  .month-intro{ font-size:15px; color:var(--text-dim); margin:0; max-width:60ch; }
+  .month-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    align-items:stretch;
+    gap:14px;
+    margin-top:22px;
   }
-  details.aside.month summary::before{ color:var(--teal); align-self:flex-start; margin-top:4px; }
-  details.aside.month .entry-month{
-    flex:1 1 240px;
-    margin-bottom:0;
-    font-size:19px;
+  details.month-card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-top:3px solid var(--teal);
+    border-radius:0 0 var(--radius) var(--radius);
+    padding:0 20px;
     min-width:0;
   }
-  details.aside.month summary .entry-stats{
-    flex:1 1 340px;
-    grid-template-columns:repeat(5,1fr);
-    margin-top:0;
-    gap:10px;
+  details.month-card summary{
+    list-style:none;
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:18px;
+    line-height:1.3;
+    color:var(--text);
+    padding:20px 0 9px;
+    pointer-events:none;   /* desktop: a plain card title, not a toggle */
+    cursor:default;
   }
-  details.aside.month[open] summary{ border-bottom:1px solid var(--line); margin-bottom:0; }
-  details.aside.month .inner{ padding:14px 0 16px; }
-  details.aside.month .inner p{ margin:0; }
-  @media(max-width:520px){
-    details.aside.month summary .entry-stats{ grid-template-columns:repeat(2,1fr); flex-basis:100%; }
-    details.aside.month .entry-month{ flex-basis:100%; }
+  details.month-card summary::-webkit-details-marker{ display:none; }
+  details.month-card summary:focus-visible{ outline:2px solid var(--amber); outline-offset:2px; }
+  details.month-card p{ margin:0; padding-bottom:22px; font-size:14.5px; color:var(--text-dim); max-width:none; }
+  @media(max-width:700px){
+    .month-grid{ grid-template-columns:1fr; gap:12px; }
+    details.month-card summary{
+      pointer-events:auto;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-height:44px;
+      padding:10px 0;
+      font-size:17px;
+    }
+    details.month-card summary::before{
+      content:"+";
+      flex:0 0 auto;
+      font-family:'IBM Plex Mono', monospace;
+      font-weight:600;
+      font-size:15px;
+      color:var(--teal);
+    }
+    details.month-card[open] summary::before{ content:"\2212"; }
   }
-
   /* --- Redesign: interactive monthly chart (progressive enhancement) --- */
   .js-hidden{ display:none !important; }
   #interactive-monthly-chart{ margin-top:20px; }
@@ -546,15 +560,15 @@
 </style>
 </head>
 <body>
-<div style="background:#B6542E;color:#fff;font:12px/1.4 monospace;padding:6px 10px;text-align:center;">PREVIEW of develop @ 8041676 - not the live site</div>
+<div style="background:#B6542E;color:#fff;font:12px/1.4 monospace;padding:6px 10px;text-align:center;">PREVIEW of develop @ 2c6373e - not the live site</div>
 <div class="wrap">
 
   <header class="site">
-    <img class="hero" src="heroimage.png" alt="Patil's EV charging on Octopus Agile">
+    <img class="hero" src="heroimage.png" alt="Illustration of a grey Geely EX5 plugged into a wall-mounted home charger on a driveway, with a half-hourly price curve dipping below zero in the background">
     <p class="kicker">a home-energy log</p>
-    <h1 class="title">I Charged My Geely EX5 for 4,000 Miles — and Paid Just £67</h1>
-    <p class="dek">Six months of real-world Geely EX5 charging on Octopus Agile — including a month when the average electricity price for my EV charging was actually negative.</p>
-    <p class="byline">By Yuvraj | EV Energy Journal <span style="opacity:0.5; padding:0 6px;">|</span> ~7 min read (11 for the full detail)</p>
+    <h1 class="title">I Charged My Geely EX5 for <!--STAT:miles_total-->4,000<!--/STAT--> Miles — and Paid Just £<!--STAT:ev_cost_round-->67<!--/STAT--></h1>
+    <p class="dek"><!--STAT:months_word_cap-->Six<!--/STAT--> months of real-world Geely EX5 charging on Octopus Agile — including a month when the average electricity price for my EV charging was actually negative.</p>
+    <p class="byline">By Yuvraj | EV Energy Journal <span style="opacity:0.5; padding:0 6px;">|</span> ~<!--STAT:read_min-->8<!--/STAT--> min read (<!--STAT:read_min_full-->10<!--/STAT--> for the full detail)</p>
     <p style="font-style:italic; color:var(--text-dim); font-size:14.5px; margin:10px 0 0;">The short version's up top &mdash; expand any month or the detail notes if you want to go deeper.</p>
 
   </header>
@@ -684,13 +698,13 @@
 
   <article>
 
-  <section class="tldr">
+  <section id="short-version" class="tldr">
     <p class="tldr-kicker">The short version</p>
     <div class="tldr-grid">
       <div class="tldr-body">
         <h2 class="section-title">It wasn't always cheap. Timing made the difference.</h2>
         <p>I got my first EV in April and wanted to know what it would really cost to run. I paired the Geely EX5 with an Andersen A3 home charger and Octopus Agile, where electricity prices change every half-hour.</p>
-        <p>The idea is simple: let charging follow the cheaper slots where possible, rather than automatically filling the battery at any price. Over six months that came to about <!--STAT:ev_kwh_total-->1,018<!--/STAT-->&nbsp;kWh of home charging for a net energy cost of £<!--STAT:ev_cost_total-->67.23<!--/STAT-->.</p>
+        <p>The idea is simple: let charging follow the cheaper slots where possible, rather than automatically filling the battery at any price. Over <!--STAT:months_word-->six<!--/STAT--> months that came to about <!--STAT:ev_kwh_total-->1,018<!--/STAT-->&nbsp;kWh of home charging for a net energy cost of £<!--STAT:ev_cost_total-->67.23<!--/STAT-->.</p>
         <p>That average hides some big swings. May was the reality check; September was the surprise.</p>
       </div>
       <div class="tldr-side">
@@ -710,10 +724,10 @@
 
   <section style="border-top:none; padding-top:16px;">
     <p>When I bought my Geely EX5, I expected home charging to be cheaper than running a petrol or diesel car. What I didn't expect was that, occasionally, electricity would effectively <strong>pay me to charge it</strong>.</p>
-    <p>I didn't manage this by constantly watching prices or rearranging my life around the cheapest half-hour. The car simply charged whenever the price met the conditions I'd set — and over six months, that was enough to land <!--STAT:neg_pct_total-->42.4<!--/STAT-->% of its energy in negative-price slots.</p>
+    <p>I didn't manage this by constantly watching prices or rearranging my life around the cheapest half-hour. The car simply charged whenever the price met the conditions I'd set — and over <!--STAT:months_word-->six<!--/STAT--> months, that was enough to land <!--STAT:neg_pct_total-->42.4<!--/STAT-->% of its energy in negative-price slots.</p>
   </section>
 
-  <section>
+  <section id="at-a-glance">
     <div class="chart-section-head">
       <div class="chart-section-headings">
         <p class="tldr-kicker">At a glance</p>
@@ -813,7 +827,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="how-it-works">
     <h2 class="section-title">So, how does this actually work?</h2>
     <p>Octopus Agile changes its electricity price every 30 minutes, giving 48 different half-hourly prices across the day, and the next day's prices are published each afternoon at around 4pm. The Andersen can then use a price ceiling to decide when charging should take place — it doesn't need me sitting there monitoring the market. If the price falls below the threshold, it charges. If the price is above it, it waits.</p>
     <p>And if the price goes negative? That's when things get particularly interesting. During a negative-price period, the electricity unit price is below £0/kWh — in simple terms, the wholesale market is effectively paying for consumption during that period. For an EV, which can shift a large chunk of its electricity use to another time, that's a very useful opportunity.</p>
@@ -841,106 +855,37 @@
     </details>
   </section>
 
-  <section>
-    <h2 class="section-title">What happened over six months?</h2>
+  <section id="months">
+    <p class="takeaway-kicker">The <!--STAT:months_word-->six<!--/STAT-->-month log</p>
+    <h2 class="section-title"><!--STAT:months_word_cap-->Six<!--/STAT--> months, <!--STAT:months_word-->six<!--/STAT--> different outcomes</h2>
+    <p class="month-intro">The chart is the overview; these are the moments that explain it.</p>
 
-    <p class="months-hint">Agile isn't magically cheap every month — May is the proof. Tap any month to read the story behind the numbers.</p>
-
-    <details class="aside month">
-      <summary>
-        <span class="entry-month">April — the experiment gets off to a ridiculous start</span>
-        <div class="entry-stats">
-          <div class="cell"><div class="v">79.0 kWh</div><div class="l">charged</div></div>
-          <div class="cell"><div class="v">3.9p</div><div class="l">avg price / kWh</div></div>
-          <div class="cell"><div class="v">£3.08</div><div class="l">EV cost</div></div>
-          <div class="cell"><div class="v">64%</div><div class="l">at negative price</div></div>
-          <div class="cell"><div class="v">~310 mi</div><div class="l">driven</div></div>
-        </div>
-      </summary>
-      <div class="inner">
-        <p>April was my first month on the tariff. I charged around 79&nbsp;kWh for a cost of just £3.08 — an average of 3.9p/kWh, with 64% of it falling in negative-price periods. I was still getting used to the car, the charger and Agile, so I certainly wasn't optimising every half-hour. The car simply happened to be at home while some very cheap periods passed through. <strong>79&nbsp;kWh. £3.08. Roughly 310 miles.</strong> Not a bad start.</p>
-      </div>
-    </details>
-
-    <details class="aside month">
-      <summary>
-        <span class="entry-month">May — the reality check</span>
-        <div class="entry-stats">
-          <div class="cell"><div class="v">242.0 kWh</div><div class="l">charged</div></div>
-          <div class="cell"><div class="v">14.6p</div><div class="l">avg price / kWh</div></div>
-          <div class="cell"><div class="v">£35.26</div><div class="l">EV cost</div></div>
-          <div class="cell"><div class="v">0%</div><div class="l">at negative price</div></div>
-          <div class="cell"><div class="v">~960 mi</div><div class="l">driven</div></div>
-        </div>
-      </summary>
-      <div class="inner">
-        <p>Then came May. I charged 242&nbsp;kWh — more than three times April's consumption — but the result was completely different: <strong>no negative-price periods that I actually used</strong>. The average price was 14.6p/kWh, and the month's charging cost was £35.26. A proper reality check. The cheapest opportunities depend on the market and the available generation — and, just as importantly, on whether the car is actually at home when they occur. May was the month that proved this experiment isn't about making EV charging look artificially cheap. It's about recording the real picture.</p>
-      </div>
-    </details>
-
-    <details class="aside month">
-      <summary>
-        <span class="entry-month">June — back to the cheap stuff</span>
-        <div class="entry-stats">
-          <div class="cell"><div class="v">109.0 kWh</div><div class="l">charged</div></div>
-          <div class="cell"><div class="v">2.2p</div><div class="l">avg price / kWh</div></div>
-          <div class="cell"><div class="v">£2.44</div><div class="l">EV cost</div></div>
-          <div class="cell"><div class="v">49%</div><div class="l">at negative price</div></div>
-          <div class="cell"><div class="v">~430 mi</div><div class="l">driven</div></div>
-        </div>
-      </summary>
-      <div class="inner">
-        <p>After the much more expensive May, June went straight back the other way. I charged 109&nbsp;kWh at an average of just <strong>2.2p/kWh</strong>. The total cost? <strong>£2.44</strong>. Almost half — 49% — of the charging fell in negative-price periods. That's one of those electricity bills that makes you double-check whether you've entered the numbers correctly.</p>
-      </div>
-    </details>
-
-    <details class="aside month">
-      <summary>
-        <span class="entry-month">July — more miles, still very cheap</span>
-        <div class="entry-stats">
-          <div class="cell"><div class="v">202.4 kWh</div><div class="l">charged</div></div>
-          <div class="cell"><div class="v">3.8p</div><div class="l">avg price / kWh</div></div>
-          <div class="cell"><div class="v">£7.72</div><div class="l">EV cost</div></div>
-          <div class="cell"><div class="v">45%</div><div class="l">at negative price</div></div>
-          <div class="cell"><div class="v">~800 mi</div><div class="l">driven</div></div>
-        </div>
-      </summary>
-      <div class="inner">
-        <p>July was another strong month — roughly 800 miles on <strong>202.4&nbsp;kWh</strong> for just <strong>£7.72</strong>, at an average of 3.8p/kWh with 45% of it at negative prices.</p>
-      </div>
-    </details>
-
-    <details class="aside month">
-      <summary>
-        <span class="entry-month">August — still cheap, but less spectacular</span>
-        <div class="entry-stats">
-          <div class="cell"><div class="v">178.7 kWh</div><div class="l">charged</div></div>
-          <div class="cell"><div class="v">12.2p</div><div class="l">avg price / kWh</div></div>
-          <div class="cell"><div class="v">£21.86</div><div class="l">EV cost</div></div>
-          <div class="cell"><div class="v">33%</div><div class="l">at negative price</div></div>
-          <div class="cell"><div class="v">~700 mi</div><div class="l">driven</div></div>
-        </div>
-      </summary>
-      <div class="inner">
-        <p>A fixed-day full charge for a trip meant some charging had to happen in more expensive periods: <strong>178.7&nbsp;kWh → £21.86 → 12.2p/kWh</strong> average. Even so, around a third of it still fell in negative-price windows.</p>
-      </div>
-    </details>
-
-    <details class="aside month">
-      <summary>
-        <span class="entry-month">September — the month the grid paid me to charge</span>
-        <div class="entry-stats">
-          <div class="cell"><div class="v">207.2 kWh</div><div class="l">charged</div></div>
-          <div class="cell"><div class="v">−1.5p</div><div class="l">avg price / kWh</div></div>
-          <div class="cell"><div class="v">−£3.15</div><div class="l">EV cost (credit)</div></div>
-          <div class="cell"><div class="v">86%</div><div class="l">at negative price</div></div>
-          <div class="cell"><div class="v">~810 mi</div><div class="l">driven</div></div>
-        </div>
-      </summary>
-      <div class="inner">
-        <p>This is the one I keep checking twice. I charged 207.2&nbsp;kWh, and the average price came out at <strong>−1.5p/kWh</strong> — not "nearly free," actually negative, across the whole month. 86% of the charging fell in negative-price periods, and the net result was a credit: the charging cost came to <strong>−£3.15</strong>. The value of those negative windows more than offset everything I paid in the positive ones. One session on the 20th alone pulled 57.6&nbsp;kWh over eight and a half hours, almost entirely at negative prices. I didn't do anything differently — I just left the price ceiling where it was and let the car and the weather sort it out. It's the kind of result that sounds unbelievable until you look at the underlying half-hourly data.</p>
-      </div>
-    </details>
+    <div class="month-grid">
+      <details class="month-card" open>
+        <summary>April · The promising start</summary>
+        <p>79&nbsp;kWh cost £3.08, with 64% of charging energy in negative-price slots. I was still getting used to the car and the tariff, so I wasn't trying hard — the car just happened to be home when the cheap periods passed through. Not a bad start.</p>
+      </details>
+      <details class="month-card" open>
+        <summary>May · The reality check</summary>
+        <p>242&nbsp;kWh cost £35.26. Not one kWh landed in a negative slot all month — a proper reality check, and proof this project isn't about making EV charging look artificially cheap. It's about recording what actually happened.</p>
+      </details>
+      <details class="month-card" open>
+        <summary>June · Back to bargain territory</summary>
+        <p>109&nbsp;kWh cost £2.44, with 49% of charging energy in negative-price slots — the kind of bill that makes you double-check you've entered the numbers correctly.</p>
+      </details>
+      <details class="month-card" open>
+        <summary>July · Cheap at higher mileage</summary>
+        <p>About 800 miles of driving, with 202.4&nbsp;kWh charged for just £7.72. More driving than June, but I still wasn't chasing every half-hour — the car simply took what was on offer while it was parked.</p>
+      </details>
+      <details class="month-card" open>
+        <summary>August · The trip that couldn't wait</summary>
+        <p>A journey I couldn't move meant the car had to be charged by a fixed day. With not enough already in the battery, and the grid not cheap in the hours before I left, some of that charge had to come at higher prices. The average rose to 12.2p/kWh and the month cost £21.86. If every month looked like June, the story would be too easy — real life doesn't cooperate like that.</p>
+      </details>
+      <details class="month-card" open>
+        <summary>September · The surprise</summary>
+        <p>207.2&nbsp;kWh at an average −1.5p/kWh produced a −£3.15 net charging result — not nearly free, actually negative, for the whole month. One session on the 20th alone pulled 57.6&nbsp;kWh over eight and a half hours, almost entirely at negative prices. I didn't do anything differently; I just left the price ceiling where it was and let the car and the weather sort it out.</p>
+      </details>
+    </div>
 
     <!-- The EV monthly table is kept (hidden) so the tracker keeps patching it each
          month and the figures stay auto-updating; the six cards above present the same
@@ -962,10 +907,10 @@
     </div>
   </section>
 
-  <section>
+  <section id="household">
     <h2 class="section-title">But what about the rest of the house?</h2>
     <p>This was one of the questions I most wanted to answer. If EV charging is so cheap, is the saving simply being offset by expensive electricity elsewhere in the house?</p>
-    <p>Not really. Over the same period, from 13 April through the end of September, my household — excluding the EV charging — used <strong><!--STAT:hh_kwh_total-->825.5<!--/STAT--> kWh</strong>, costing <strong>£<!--STAT:hh_cost_total-->171.11<!--/STAT--></strong>, an average of <strong><!--STAT:hh_avg_p_total-->20.7<!--/STAT-->p/kWh</strong>. There was also the fixed standing charge of <strong>66.26p per day</strong>, which came to <strong>£<!--STAT:sc_total-->113.27<!--/STAT--></strong> over that period. So the total household electricity cost, including the standing charge, was <strong>£<!--STAT:hh_combined-->284.38<!--/STAT--></strong> — compare that with £67.23 for EV charging.</p>
+    <p>Not really. Over the same period, from <!--STAT:period_start-->13 April<!--/STAT--> through the end of <!--STAT:last_month_name-->September<!--/STAT-->, my household — excluding the EV charging — used <strong><!--STAT:hh_kwh_total-->825.5<!--/STAT--> kWh</strong>, costing <strong>£<!--STAT:hh_cost_total-->171.11<!--/STAT--></strong>, an average of <strong><!--STAT:hh_avg_p_total-->20.7<!--/STAT-->p/kWh</strong>. There was also the fixed standing charge of <strong><!--STAT:sc_rate_p-->66.26<!--/STAT-->p per day</strong>, which came to <strong>£<!--STAT:sc_total-->113.27<!--/STAT--></strong> over that period. So the total household electricity cost, including the standing charge, was <strong>£<!--STAT:hh_combined-->284.38<!--/STAT--></strong> — compare that with £<!--STAT:ev_cost_total-->67.23<!--/STAT--> for EV charging.</p>
     <!-- BEGIN:hh_table -->
     <div style="overflow-x:auto;">
     <table class="summary" style="min-width:540px;">
@@ -986,11 +931,11 @@
     <p>The EV is different. If I need 20 or 30 kWh in the battery, I generally don't care whether it goes in tonight, tomorrow morning or tomorrow afternoon — only that the car's charged when I need to drive it. That flexibility is what lets the charging load slide towards the cheapest periods, and it's where the saving comes from.</p>
   </section>
 
-  <section>
+  <section id="negative-hours">
     <h2 class="section-title">When did the negative hours land?</h2>
-    <p>Negative pricing isn't random. Over the six months it has fallen overwhelmingly on weekends and in the middle of the day — when demand is low and there's plenty of wind and solar on the grid. That is also, inconveniently, when the car is most likely to be out.</p>
+    <p>Negative pricing isn't random. Over the <!--STAT:months_word-->six<!--/STAT--> months it has fallen overwhelmingly on weekends and in the middle of the day — when demand is low and there's plenty of wind and solar on the grid. That is also, inconveniently, when the car is most likely to be out.</p>
     <div class="chart-grid">
-      <div class="chart-card">
+      <div class="chart-card" id="weekday-chart">
         <h3>Negative-price hours by weekday</h3>
         <!-- BEGIN:chart_neg_weekday -->
         <svg viewBox="0 0 680 200" width="100%" role="img" aria-label="Negative-price hours by weekday">
@@ -1021,7 +966,7 @@
         </svg>
     <!-- END:chart_neg_weekday -->
       </div>
-      <div class="chart-card">
+      <div class="chart-card" id="heatmap">
         <h3>Calendar heatmap — negative hours per day</h3>
         <p style="font-size:13.5px; color:var(--text-dim); margin:0 0 14px;">Darker green = more negative hours that day.</p>
         <div class="hm-scroll">
@@ -1813,7 +1758,7 @@
     <p style="margin-top:22px;">Saturdays and Sundays alone account for roughly three-quarters of every negative-price hour since April. The two brightest days on the calendar are 19–20 September, when prices were negative almost around the clock.</p>
   </section>
 
-  <section style="border-top:none;">
+  <section id="lessons" style="border-top:none;">
     <p class="takeaway-kicker">What I've learned</p>
     <h2 class="section-title">Flexibility is the real advantage</h2>
     <div class="takeaway-list">
@@ -1827,18 +1772,18 @@
       </article>
       <article class="takeaway">
         <strong>One season isn't a forecast</strong>
-        <p>Six months show what's possible, not what every driver will pay — May proved Agile isn't magically cheap. A full year, across all the seasons, will give a fairer picture.</p>
+        <p><!--STAT:months_word_cap-->Six<!--/STAT--> months show what's possible, not what every driver will pay — May proved Agile isn't magically cheap. A full year, across all the seasons, will give a fairer picture.</p>
       </article>
     </div>
   </section>
 
-  <section style="border-top:none;">
+  <section id="method" style="border-top:none;">
     <p class="takeaway-kicker">For the detail-minded</p>
     <h2 class="section-title">Method &amp; caveats</h2>
     <details class="aside">
-      <summary>Is the £67.23 an estimate?</summary>
+      <summary>Is the £<!--STAT:ev_cost_total-->67.23<!--/STAT--> an estimate?</summary>
       <div class="inner">
-        <p style="margin:0;">No. That £67.23 covers <!--STAT:ev_kwh_total-->1,018<!--/STAT--> kWh of home charging across <!--STAT:months_tracked-->6<!--/STAT--> months, and it isn't based on an assumed rate — it's built from the actual half-hourly Agile prices tied to the electricity my charger used. That distinction matters on Agile, because multiplying total kWh by a single average rate can give a very different, misleading answer. Monthly figures are each rounded before display, so they won't always sum exactly to the six-month total; the total itself is calculated from the unrounded underlying data.</p>
+        <p style="margin:0;">No. That £<!--STAT:ev_cost_total-->67.23<!--/STAT--> covers <!--STAT:ev_kwh_total-->1,018<!--/STAT--> kWh of home charging across <!--STAT:months_tracked-->6<!--/STAT--> months, and it isn't based on an assumed rate — it's built from the actual half-hourly Agile prices tied to the electricity my charger used. That distinction matters on Agile, because multiplying total kWh by a single average rate can give a very different, misleading answer. Monthly figures are each rounded before display, so they won't always sum exactly to the <!--STAT:months_word-->six<!--/STAT-->-month total; the total itself is calculated from the unrounded underlying data.</p>
       </div>
     </details>
     <details class="aside">
@@ -1857,18 +1802,18 @@
     </details>
   </section>
 
-  <section>
+  <section id="support">
     <h2 class="section-title">Considering Octopus?</h2>
     <div class="callout">
       <p>Join Octopus with my referral and we’ll split a £100 reward (£50 each) on home sign-ups, or a £150 reward for business sign-ups (£75 each). Octoplus members can also get 800 Octopoints.</p>
       <div class="support-actions">
-        <a class="support-button" href="https://share.octopus.energy/flax-briar-389" target="_blank" rel="noopener noreferrer"><svg class="energy-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13.2 1.8 4.9 13h5.7l-.8 9.2L19.1 10h-5.8l-.1-8.2Z"/></svg>Join Octopus with my referral</a>
+        <a class="support-button" href="https://share.octopus.energy/flax-briar-389" target="_blank" rel="sponsored noopener noreferrer"><svg class="energy-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13.2 1.8 4.9 13h5.7l-.8 9.2L19.1 10h-5.8l-.1-8.2Z"/></svg>Join Octopus with my referral</a>
       </div>
       <p>This is my personal referral link—thanks for using it if you decide to join.</p>
     </div>
   </section>
 
-  <section>
+  <section id="coffee">
     <h2 class="section-title">Enjoying the journal?</h2>
     <div class="callout">
       <p>If you’ve found this journal useful, you can buy me a coffee to support the time I spend tracking the data and sharing what I learn—and help me keep writing.</p>
@@ -1880,7 +1825,7 @@
 
   </article>
 
-  <footer class="site">
+  <footer class="site" id="notes">
     <p><strong style="color:var(--text)">A note on the numbers:</strong> EV charging is measured by the home charger, with each half-hour priced using the corresponding Octopus Agile rate.</p>
     <p style="margin-top:22px;">This is my personal experience rather than energy or financial advice. Tariffs, charging equipment, driving patterns and electricity prices vary, so your results could be very different. I'll update this page as each new month of data comes in.</p>
     <p style="font-size:12.5px; color:var(--text-dim);">This is an independent personal blog and is not affiliated with, sponsored by, or endorsed by any company mentioned. Octopus, Octopus Agile, Andersen and Geely are trademarks of their respective owners, used here only to describe my own real-world experience with their products.</p>
@@ -2087,6 +2032,36 @@
   renderHeader();
   renderBars();
   renderReadout();
+})();
+</script>
+<script>
+/* Month cards: open on desktop (plain cards), collapsed by default on mobile.
+   Without JS every card stays open (the `open` attribute is in the HTML). */
+(function(){
+  var cards = document.querySelectorAll('details.month-card');
+  if (!cards.length || !window.matchMedia) return;
+  var mq = window.matchMedia('(max-width:700px)');
+  function apply(){
+    for (var i = 0; i < cards.length; i++){
+      var s = cards[i].querySelector('summary');
+      if (mq.matches){
+        cards[i].removeAttribute('open');
+        if (s) s.removeAttribute('tabindex');
+      } else {
+        cards[i].setAttribute('open', '');
+        if (s) s.setAttribute('tabindex', '-1'); // not a toggle on desktop
+      }
+    }
+  }
+  // Desktop: keep cards open even if toggled via keyboard.
+  for (var i = 0; i < cards.length; i++){
+    cards[i].addEventListener('toggle', function(e){
+      if (!mq.matches && !e.target.open) e.target.open = true;
+    });
+  }
+  apply();
+  if (mq.addEventListener) mq.addEventListener('change', apply);
+  else if (mq.addListener) mq.addListener(apply);
 })();
 </script>
 </body>

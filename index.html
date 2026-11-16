@@ -419,6 +419,32 @@
   }
   details.month-card summary::-webkit-details-marker{ display:none; }
   details.month-card summary:focus-visible{ outline:2px solid var(--amber); outline-offset:2px; }
+  details.month-card .mc-title{ display:block; }
+  details.month-card .mc-chip{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    width:fit-content;
+    margin-top:9px;
+    padding:3px 10px 3px 8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:400;
+    font-size:12px;
+    line-height:1.4;
+    white-space:nowrap;
+    color:var(--text);
+    background:var(--surface-2);
+    border:1px solid var(--line);
+    border-radius:999px;
+  }
+  details.month-card .mc-chip::before{
+    content:"";
+    flex:0 0 auto;
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:var(--chip);
+  }
   details.month-card p{ margin:0; padding-bottom:22px; font-size:14.5px; color:var(--text-dim); max-width:none; }
   @media(max-width:700px){
     .month-grid{ grid-template-columns:1fr; gap:12px; }
@@ -441,6 +467,8 @@
       color:var(--teal);
     }
     details.month-card[open] summary::before{ content:"\2212"; }
+    details.month-card .mc-title{ flex:1 1 0; min-width:0; }
+    details.month-card .mc-chip{ flex:0 0 auto; margin-top:0; }
   }
   /* --- Redesign: interactive monthly chart (progressive enhancement) --- */
   .js-hidden{ display:none !important; }
@@ -560,7 +588,7 @@
 </style>
 </head>
 <body>
-<div style="background:#B6542E;color:#fff;font:12px/1.4 monospace;padding:6px 10px;text-align:center;">PREVIEW of develop @ 2c6373e - not the live site</div>
+<div style="background:#B6542E;color:#fff;font:12px/1.4 monospace;padding:6px 10px;text-align:center;">PREVIEW of develop @ 9dd629c - not the live site</div>
 <div class="wrap">
 
   <header class="site">
@@ -862,27 +890,27 @@
 
     <div class="month-grid">
       <details class="month-card" open>
-        <summary>April · The promising start</summary>
+        <summary><span class="mc-title">April · The promising start</span><span class="mc-chip" style="--chip:#889555">3.9p/kWh avg</span></summary>
         <p>79&nbsp;kWh cost £3.08, with 64% of charging energy in negative-price slots. I was still getting used to the car and the tariff, so I wasn't trying hard — the car just happened to be home when the cheap periods passed through. Not a bad start.</p>
       </details>
       <details class="month-card" open>
-        <summary>May · The reality check</summary>
+        <summary><span class="mc-title">May · The reality check</span><span class="mc-chip" style="--chip:#B34030">14.6p/kWh avg</span></summary>
         <p>242&nbsp;kWh cost £35.26. Not one kWh landed in a negative slot all month — a proper reality check, and proof this project isn't about making EV charging look artificially cheap. It's about recording what actually happened.</p>
       </details>
       <details class="month-card" open>
-        <summary>June · Back to bargain territory</summary>
+        <summary><span class="mc-title">June · Back to bargain territory</span><span class="mc-chip" style="--chip:#6E8D52">2.2p/kWh avg</span></summary>
         <p>109&nbsp;kWh cost £2.44, with 49% of charging energy in negative-price slots — the kind of bill that makes you double-check you've entered the numbers correctly.</p>
       </details>
       <details class="month-card" open>
-        <summary>July · Cheap at higher mileage</summary>
+        <summary><span class="mc-title">July · Cheap at higher mileage</span><span class="mc-chip" style="--chip:#869555">3.8p/kWh avg</span></summary>
         <p>About 800 miles of driving, with 202.4&nbsp;kWh charged for just £7.72. More driving than June, but I still wasn't chasing every half-hour — the car simply took what was on offer while it was parked.</p>
       </details>
       <details class="month-card" open>
-        <summary>August · The trip that couldn't wait</summary>
+        <summary><span class="mc-title">August · The trip that couldn't wait</span><span class="mc-chip" style="--chip:#B6623E">12.2p/kWh avg</span></summary>
         <p>A journey I couldn't move meant the car had to be charged by a fixed day. With not enough already in the battery, and the grid not cheap in the hours before I left, some of that charge had to come at higher prices. The average rose to 12.2p/kWh and the month cost £21.86. If every month looked like June, the story would be too easy — real life doesn't cooperate like that.</p>
       </details>
       <details class="month-card" open>
-        <summary>September · The surprise</summary>
+        <summary><span class="mc-title">September · The surprise</span><span class="mc-chip" style="--chip:#377C4D">−1.5p/kWh avg</span></summary>
         <p>207.2&nbsp;kWh at an average −1.5p/kWh produced a −£3.15 net charging result — not nearly free, actually negative, for the whole month. One session on the 20th alone pulled 57.6&nbsp;kWh over eight and a half hours, almost entirely at negative prices. I didn't do anything differently; I just left the price ceiling where it was and let the car and the weather sort it out.</p>
       </details>
     </div>

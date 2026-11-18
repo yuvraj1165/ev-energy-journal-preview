@@ -305,6 +305,19 @@
   details.aside[open] summary{border-bottom:1px solid var(--line);margin-bottom:14px;}
   details.aside .inner{padding-bottom:16px;}
 
+  .hh-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:22px 0 14px;}
+  .hh-card{position:relative;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px 14px 14px;overflow:hidden;overflow-wrap:anywhere;}
+  .hh-card.hl::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--amber);}
+  .hh-card dt{font-family:'IBM Plex Mono',monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:1px;color:var(--text-dim);margin:0 0 8px;}
+  .hh-card dd{margin:0;}
+  .hh-card .num{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:24px;line-height:1.2;color:var(--text);}
+  .hh-card.hl .num{color:var(--amber);}
+  .hh-card .cap{font-family:'IBM Plex Sans',sans-serif;font-size:12px;line-height:1.45;color:var(--text-dim);margin-top:6px;}
+  .hh-card .cap b{font-weight:600;color:var(--text);}
+  @media (max-width:760px){
+    .hh-cards{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .hh-card .num{font-size:21px;}
+  }
   .hm-scroll{
     overflow-x:auto;
     -webkit-overflow-scrolling:touch;
@@ -335,6 +348,11 @@
   }
 
   /* --- Redesign: takeaway cards (closing "what I've learned") --- */
+  /* Section kicker: the ONE small label style used above every content section's h2
+     (short version, at a glance, how it works, the monthly log, household, negative hours,
+     lessons, method). Same class and same teal everywhere. The two sign-off call-to-action
+     blocks at the end (Considering Octopus? / Enjoying the journal?) intentionally have
+     NO kicker. New content sections should use <p class="takeaway-kicker">. */
   .takeaway-kicker{
     font-family:'IBM Plex Mono', monospace;
     font-size:12px; font-weight:600;
@@ -400,13 +418,6 @@
 
   /* --- Redesign: TL;DR / the short version --- */
   section.tldr{ padding-top:40px; }
-  .tldr-kicker{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:12px; font-weight:600;
-    letter-spacing:0.12em; text-transform:uppercase;
-    color:var(--amber);
-    margin:0 0 14px;
-  }
   .tldr-grid{
     display:grid;
     grid-template-columns:minmax(0,1.1fr) minmax(240px,0.9fr);
@@ -712,7 +723,7 @@
 </script>
 </head>
 <body>
-<div style="background:#B6542E;color:#fff;font:12px/1.4 monospace;padding:6px 10px;text-align:center;">PREVIEW of develop @ e262948 - not the live site</div>
+<div style="background:#B6542E;color:#fff;font:12px/1.4 monospace;padding:6px 10px;text-align:center;">PREVIEW of develop @ 8d7178f - not the live site</div>
 <div class="wrap">
 
   <header class="site">
@@ -726,7 +737,7 @@
     </div>
     <h1 class="title">I Charged My Geely EX5 for <!--STAT:miles_total-->4,000<!--/STAT--> Miles — and Paid Just £<!--STAT:ev_cost_round-->67<!--/STAT--></h1>
     <p class="dek"><!--STAT:months_word_cap-->Six<!--/STAT--> months of real-world Geely EX5 charging on Octopus Agile — including a month when the average electricity price for my EV charging was actually negative.</p>
-    <p class="byline">By Yuvraj | EV Energy Journal <span style="opacity:0.5; padding:0 6px;">|</span> ~<!--STAT:read_min-->8<!--/STAT--> min read (<!--STAT:read_min_full-->10<!--/STAT--> for the full detail)</p>
+    <p class="byline">By Yuvraj | EV Energy Journal <span style="opacity:0.5; padding:0 6px;">|</span> ~<!--STAT:read_min-->7<!--/STAT--> min read (<!--STAT:read_min_full-->10<!--/STAT--> for the full detail)</p>
     <p style="font-style:italic; color:var(--text-dim); font-size:14.5px; margin:10px 0 0;">The short version's up top &mdash; expand any month or the detail notes if you want to go deeper.</p>
 
   </header>
@@ -857,7 +868,7 @@
   <article>
 
   <section id="short-version" class="tldr">
-    <p class="tldr-kicker">The short version</p>
+    <p class="takeaway-kicker">The short version</p>
     <div class="tldr-grid">
       <div class="tldr-body">
         <h2 class="section-title">It wasn't always cheap. Timing made the difference.</h2>
@@ -888,7 +899,7 @@
   <section id="at-a-glance">
     <div class="chart-section-head">
       <div class="chart-section-headings">
-        <p class="tldr-kicker">At a glance</p>
+        <p class="takeaway-kicker">At a glance</p>
         <h2 class="section-title" style="margin-bottom:8px;">One chart tells most of the story</h2>
         <p class="section-intro">Choose what to compare. Tap a month to see its figures.</p>
       </div>
@@ -986,6 +997,7 @@
   </section>
 
   <section id="how-it-works">
+    <p class="takeaway-kicker">The basics</p>
     <h2 class="section-title">So, how does this actually work?</h2>
     <p>Octopus Agile changes its electricity price every 30 minutes, giving 48 different half-hourly prices across the day, and the next day's prices are published each afternoon at around 4pm. The Andersen can then use a price ceiling to decide when charging should take place — it doesn't need me sitting there monitoring the market. If the price falls below the threshold, it charges. If the price is above it, it waits.</p>
     <p>And if the price goes negative? That's when things get particularly interesting. During a negative-price period, the electricity unit price is below £0/kWh — in simple terms, the wholesale market is effectively paying for consumption during that period. For an EV, which can shift a large chunk of its electricity use to another time, that's a very useful opportunity.</p>
@@ -1066,9 +1078,31 @@
   </section>
 
   <section id="household">
+    <p class="takeaway-kicker">A useful comparison</p>
     <h2 class="section-title">But what about the rest of the house?</h2>
     <p>This was one of the questions I most wanted to answer. If EV charging is so cheap, is the saving simply being offset by expensive electricity elsewhere in the house?</p>
-    <p>Not really. Over the same period, from <!--STAT:period_start-->13 April<!--/STAT--> through the end of <!--STAT:last_month_name-->September<!--/STAT-->, my household — excluding the EV charging — used <strong><!--STAT:hh_kwh_total-->825.5<!--/STAT--> kWh</strong>, costing <strong>£<!--STAT:hh_cost_total-->171.11<!--/STAT--></strong>, an average of <strong><!--STAT:hh_avg_p_total-->20.7<!--/STAT-->p/kWh</strong>. There was also the fixed standing charge of <strong><!--STAT:sc_rate_p-->66.26<!--/STAT-->p per day</strong>, which came to <strong>£<!--STAT:sc_total-->113.27<!--/STAT--></strong> over that period. So the total household electricity cost, including the standing charge, was <strong>£<!--STAT:hh_combined-->284.38<!--/STAT--></strong> — compare that with £<!--STAT:ev_cost_total-->67.23<!--/STAT--> for EV charging.</p>
+    <dl class="hh-cards" aria-label="Household electricity summary">
+      <div class="hh-card">
+        <dt>Home use, excl. EV</dt>
+        <dd><div class="num"><!--STAT:hh_kwh_total-->825.5<!--/STAT--> kWh</div><div class="cap">Since <!--STAT:period_start-->13 April<!--/STAT--> 2026<br>to end of <!--STAT:last_month_name-->September<!--/STAT--></div></dd>
+      </div>
+      <div class="hh-card hl">
+        <dt>Average unit price</dt>
+        <dd><div class="num"><!--STAT:hh_avg_p_total-->20.7<!--/STAT-->p/kWh</div><div class="cap">whole-house average<br><b>vs <!--STAT:ev_avg_p_total-->6.6<!--/STAT-->p/kWh for the EV</b></div></dd>
+      </div>
+      <div class="hh-card">
+        <dt>Standing charge</dt>
+        <dd><div class="num">£<!--STAT:sc_total-->113.27<!--/STAT--></div><div class="cap"><!--STAT:sc_rate_p-->66.26<!--/STAT-->p per day</div></dd>
+      </div>
+      <div class="hh-card">
+        <dt>Household total</dt>
+        <dd><div class="num">£<!--STAT:hh_combined-->284.38<!--/STAT--></div><div class="cap">£<!--STAT:hh_cost_total-->171.11<!--/STAT--> units<br>+ £<!--STAT:sc_total-->113.27<!--/STAT--> standing</div></dd>
+      </div>
+    </dl>
+    <p>The EV's home charging cost £<!--STAT:ev_cost_total-->67.23<!--/STAT--> over the same period.</p>
+    <p>The important difference isn't that the car's electricity is somehow different from the house's. It's that the EV gives me something most household use doesn't: <strong>flexibility</strong>. Most consumption happens when it happens — the fridge doesn't care what the Agile price is, and neither do the lights. Cooking, computers and televisions all have to run when I need them.</p>
+    <p>The EV is different. If I need 20 or 30 kWh in the battery, I generally don't care whether it goes in tonight, tomorrow morning or tomorrow afternoon — only that the car's charged when I need to drive it. That flexibility is what lets the charging load slide towards the cheapest periods, and it's where the saving comes from.</p>
+    <details class="aside"><summary>See the month-by-month household table</summary><div class="inner">
     <!-- BEGIN:hh_table -->
     <div style="overflow-x:auto;">
     <table class="summary" style="min-width:540px;">
@@ -1085,11 +1119,11 @@
     </table>
     </div>
     <!-- END:hh_table -->
-    <p>The important difference isn't that the car's electricity is somehow different from the house's. It's that the EV gives me something most household use doesn't: <strong>flexibility</strong>. Most consumption happens when it happens — the fridge doesn't care what the Agile price is, and neither do the lights. Cooking, computers and televisions all have to run when I need them.</p>
-    <p>The EV is different. If I need 20 or 30 kWh in the battery, I generally don't care whether it goes in tonight, tomorrow morning or tomorrow afternoon — only that the car's charged when I need to drive it. That flexibility is what lets the charging load slide towards the cheapest periods, and it's where the saving comes from.</p>
+    </div></details>
   </section>
 
   <section id="negative-hours">
+    <p class="takeaway-kicker">Down to the day</p>
     <h2 class="section-title">When did the negative hours land?</h2>
     <p>Negative pricing isn't random. Over the <!--STAT:months_word-->six<!--/STAT--> months it has fallen overwhelmingly on weekends and in the middle of the day — when demand is low and there's plenty of wind and solar on the grid. That is also, inconveniently, when the car is most likely to be out.</p>
     <div class="chart-grid">

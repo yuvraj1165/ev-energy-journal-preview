@@ -559,7 +559,7 @@
     details.month-card .mc-title{ flex:1 1 0; min-width:0; }
     details.month-card .mc-chip{ flex:0 0 auto; margin-top:0; }
   }
-  /* --- Redesign: interactive monthly chart (progressive enhancement) --- */
+  /* --- Interactive small-multiples chart (progressive enhancement) --- */
   .js-hidden{ display:none !important; }
   #interactive-monthly-chart{ margin-top:20px; }
   .imc-card{
@@ -578,61 +578,118 @@
   }
   .chart-section-headings{ min-width:0; }
   .chart-section-head .section-intro{ margin-top:0; }
-  .chart-section-head .imc-toggle{ margin:0; flex:0 0 auto; }
-  @media(max-width:620px){
-    .chart-section-head{ align-items:flex-start; }
-  }
-  .imc-header{ margin:0 0 18px; }
-  .imc-title{ font-family:'Fraunces', serif; font-weight:500; font-size:18px; margin:0 0 6px; color:var(--text); }
-  .imc-subtitle{ font-size:13px; color:var(--text-dim); margin:0; max-width:60ch; }
-  .imc-toggle{ display:flex; flex-wrap:wrap; gap:8px; margin:0 0 20px; }
-  .imc-toggle button{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:13px;
-    color:var(--text);
-    background:var(--surface-2);
-    border:1px solid var(--line);
-    border-radius:999px;
-    padding:9px 16px;
-    min-height:40px;
-    cursor:pointer;
-  }
-  .imc-toggle button[aria-pressed="true"]{
-    background:var(--teal-button);
-    border-color:var(--teal-button);
-    color:#fff;
-  }
-  .imc-toggle button:focus-visible,
-  .imc-bar:focus-visible{ outline:2px solid var(--amber); outline-offset:2px; }
-  .imc-bars{
+  .imc-chart-scroll{ overflow-x:auto; overscroll-behavior-inline:contain; }
+  .imc-grid{ display:grid; width:100%; padding-bottom:4px; }
+  .imc-row{
     display:grid;
-    grid-template-columns:repeat(6,1fr);
-    gap:8px;
-    align-items:end;
-    height:220px;
-    margin-bottom:14px;
+    grid-column:1 / -1;
+    align-items:stretch;
+    border-top:1px solid var(--line);
   }
-  .imc-bar{
+  .imc-month-row{ border-top:0; }
+  .imc-row-label{
+    position:sticky;
+    left:0;
+    z-index:2;
     display:flex;
     flex-direction:column;
-    justify-content:flex-end;
-    align-items:center;
-    gap:6px;
-    height:100%;
-    background:none;
-    border:0;
-    padding:0;
-    cursor:pointer;
-    font-family:inherit;
+    justify-content:center;
+    gap:3px;
+    padding:10px 10px 10px 0;
+    background:var(--surface);
+    color:var(--text);
+    font-size:12px;
+    font-weight:600;
+    line-height:1.25;
   }
-  .imc-bar .imc-bar-value{ font-family:'IBM Plex Mono', monospace; font-size:12px; font-weight:600; color:var(--text); }
-  .imc-bar .imc-bar-fill{ width:100%; max-width:64px; border-radius:4px 4px 0 0; min-height:4px; }
-  .imc-bar .imc-bar-label{ font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--text-dim); }
-  .imc-bar[aria-pressed="true"] .imc-bar-label{ color:var(--text); font-weight:600; }
+  .imc-row-label span{ color:var(--text-dim); font-size:10px; font-weight:400; }
+  .imc-month-cell,
+  .imc-cell{
+    position:relative;
+    display:block;
+    width:100%;
+    height:100%;
+    min-width:0;
+    border:0;
+    border-radius:5px;
+    padding:0;
+    background:transparent;
+    color:var(--text);
+    font-family:inherit;
+    cursor:pointer;
+  }
+  .imc-month-cell{
+    min-height:38px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--text-dim);
+  }
+  .imc-month-cell[aria-pressed="true"]{ color:var(--text); font-weight:600; }
+  .imc-cell[aria-pressed="true"],
+  .imc-month-cell[aria-pressed="true"]{ background:var(--surface-2); }
+  .imc-cell:focus-visible,
+  .imc-month-cell:focus-visible{ outline:2px solid var(--amber); outline-offset:-2px; }
+  .imc-cost-track,
+  .imc-neg-track{ position:relative; height:104px; }
+  .imc-cost-track::before,
+  .imc-neg-track::before{
+    position:absolute;
+    right:0;
+    left:0;
+    z-index:0;
+    border-top:1px solid var(--line);
+    content:"";
+  }
+  .imc-cost-track::before{ top:60px; }
+  .imc-neg-track::before{ top:66px; }
+  .imc-cell-value{
+    position:absolute;
+    top:5px;
+    right:1px;
+    left:1px;
+    z-index:1;
+    overflow:hidden;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    font-weight:600;
+    line-height:1.2;
+    text-align:center;
+    text-overflow:clip;
+    white-space:nowrap;
+  }
+  .imc-cost-fill,
+  .imc-neg-fill{
+    position:absolute;
+    left:50%;
+    width:min(30px, 62%);
+    transform:translateX(-50%);
+  }
+  .imc-cost-fill{ border-radius:4px 4px 2px 2px; }
+  .imc-cost-fill.positive{ bottom:calc(100% - 60px); }
+  .imc-cost-fill.negative{ top:60px; border-radius:2px 2px 4px 4px; }
+  .imc-neg-fill{ bottom:calc(100% - 66px); border-radius:4px 4px 2px 2px; background:#176B65; }
+  .imc-price-track{ position:relative; height:112px; }
+  .imc-price-svg{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; pointer-events:none; }
+  .imc-price-zero{ stroke:var(--text-dim); stroke-width:1.25; stroke-dasharray:5 4; opacity:.8; }
+  .imc-price-line{ fill:none; stroke:#B9984F; stroke-width:2.5; vector-effect:non-scaling-stroke; }
+  .imc-price-dot{ fill:#B9984F; stroke:var(--surface); stroke-width:2; vector-effect:non-scaling-stroke; }
+  .imc-price-value,
+  .imc-price-zero-label{
+    fill:var(--text);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    font-weight:600;
+    text-anchor:middle;
+  }
+  .imc-price-zero-label{ fill:var(--text-dim); font-size:10px; font-weight:400; text-anchor:start; }
+  .imc-price-buttons{ position:absolute; inset:0; display:grid; }
+  .imc-price-buttons .imc-cell{ background:transparent; }
+  .imc-price-buttons .imc-cell[aria-pressed="true"]{ background:rgba(185,152,79,.12); }
   .imc-readout{
     background:var(--surface-2);
     border:1px solid var(--line);
     border-radius:var(--radius);
+    margin-top:16px;
     padding:14px 16px;
     font-size:14px;
     color:var(--text);
@@ -653,6 +710,7 @@
     padding-left:10px;
     border-left:2px solid var(--line);
   }
+  .imc-stat-hidden{ display:none; }
   .imc-readout dt{
     color:var(--text-dim);
     font-size:11px;
@@ -667,13 +725,8 @@
     margin:0;
     white-space:nowrap;
   }
-  @media(max-width:620px){
-    .imc-readout dl{ grid-template-columns:repeat(2,1fr); }
-  }
-  @media(max-width:520px){
-    .imc-bar .imc-bar-value{ font-size:11px; }
-    .imc-bar .imc-bar-label{ font-size:11px; }
-  }
+  @media(max-width:620px){ .imc-readout dl{ grid-template-columns:repeat(2,1fr); } }
+  @media(max-width:520px){ .imc-card{ padding:16px 12px 14px; } }
 </style>
 <script>
 (() => {
@@ -723,7 +776,7 @@
 </script>
 </head>
 <body>
-<div style="background:#B6542E;color:#fff;font:12px/1.4 monospace;padding:6px 10px;text-align:center;">PREVIEW of develop @ 8d7178f - not the live site</div>
+<div style="background:#B6542E;color:#fff;font:12px/1.4 monospace;padding:6px 10px;text-align:center;">PREVIEW of develop @ cd3d76a - not the live site</div>
 <div class="wrap">
 
   <header class="site">
@@ -900,10 +953,9 @@
     <div class="chart-section-head">
       <div class="chart-section-headings">
         <p class="takeaway-kicker">At a glance</p>
-        <h2 class="section-title" style="margin-bottom:8px;">One chart tells most of the story</h2>
-        <p class="section-intro">Choose what to compare. Tap a month to see its figures.</p>
+        <h2 class="section-title" style="margin-bottom:8px;">One view, three measures</h2>
+        <p class="section-intro">Compare net cost, average rate and negative-price share together. Select a month to highlight it across all three rows and see its figures.</p>
       </div>
-      <div id="imc-toggle-mount" class="imc-toggle" role="group" aria-label="Choose which EV charging metric to chart" hidden></div>
     </div>
     <div id="interactive-monthly-chart" hidden></div>
     <div id="static-monthly-charts">
@@ -2027,10 +2079,8 @@
 </div>
 
 <script>
-/* Progressive enhancement: replace the three static monthly SVG charts with one
-   interactive toggle chart. Data comes ONLY from the #tracker-data JSON block the
-   tracker patches each month — never a hardcoded array. No-ops safely (static charts
-   stay visible) if the block is missing, empty, or unparseable. */
+/* Progressive enhancement: show three aligned monthly measures from #tracker-data.
+   The tracker-patched static SVGs stay visible unless valid data renders successfully. */
 (function () {
   "use strict";
   var dataEl = document.getElementById("tracker-data");
@@ -2043,187 +2093,231 @@
     var doc = JSON.parse(dataEl.textContent);
     months = doc && doc.months;
   } catch (e) {
-    return; // leave static charts visible
+    return;
   }
   if (!Array.isArray(months) || months.length === 0) return;
 
-  // --- colour ramp: mirrors price_colour() in the Python tracker exactly ---
-  function clamp(t) { return Math.max(0, Math.min(1, t)); }
-  function lerp(a, b, t) {
-    return [
-      Math.round(a[0] + (b[0] - a[0]) * t),
-      Math.round(a[1] + (b[1] - a[1]) * t),
-      Math.round(a[2] + (b[2] - a[2]) * t)
-    ];
+  function validMonth(m, previousYm) {
+    return m && typeof m.month === "string" && m.month.trim() !== "" &&
+      typeof m.short === "string" && m.short.trim() !== "" &&
+      typeof m.ym === "string" && /^\d{4}-(0[1-9]|1[0-2])$/.test(m.ym) &&
+      (!previousYm || m.ym > previousYm) &&
+      Number.isFinite(m.energy) && m.energy >= 0 &&
+      Number.isFinite(m.avg_price) &&
+      Number.isFinite(m.cost) &&
+      Number.isFinite(m.neg_pct) && m.neg_pct >= 0 && m.neg_pct <= 100 &&
+      Number.isFinite(m.miles) && m.miles >= 0;
   }
-  function hex(rgb) {
-    return "#" + rgb.map(function (c) {
-      var s = c.toString(16).toUpperCase();
-      return s.length === 1 ? "0" + s : s;
+  var previousYm = null;
+  for (var monthIndex = 0; monthIndex < months.length; monthIndex++) {
+    if (!validMonth(months[monthIndex], previousYm)) return;
+    previousYm = months[monthIndex].ym;
+  }
+
+  var SVG_NS = "http://www.w3.org/2000/svg";
+  var LABEL_WIDTH = 112;
+  var MONTH_MIN_WIDTH = 78;
+  var selectedIndex = months.length - 1;
+  var selectableGroups = [];
+
+  function element(tag, className, text) {
+    var node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text !== undefined) node.textContent = text;
+    return node;
+  }
+  function svgElement(tag, attributes, text) {
+    var node = document.createElementNS(SVG_NS, tag);
+    Object.keys(attributes).forEach(function (key) { node.setAttribute(key, attributes[key]); });
+    if (text !== undefined) node.textContent = text;
+    return node;
+  }
+  function monthName(m) { return m.month + " " + m.ym.slice(0, 4); }
+  function money(value) {
+    return (value < 0 ? "\u2212\u00A3" : "\u00A3") + Math.abs(value).toFixed(2);
+  }
+  function price(value) {
+    return (value < 0 ? "\u2212" : "") + Math.abs(value).toFixed(1) + "p";
+  }
+  function lerpColour(a, b, amount) {
+    return "#" + a.map(function (value, i) {
+      return Math.round(value + (b[i] - value) * amount).toString(16).padStart(2, "0");
     }).join("");
   }
-  function priceColour(p) {
-    var GREEN = [47, 122, 76], TAN = [190, 166, 90], RED = [178, 58, 46];
-    if (p <= 7.5) return hex(lerp(GREEN, TAN, clamp((p - (-2)) / (7.5 - (-2)))));
-    return hex(lerp(TAN, RED, clamp((p - 7.5) / (15 - 7.5))));
+  var positiveCosts = months.map(function (m) { return m.cost; }).filter(function (value) { return value > 0; });
+  var minPositiveCost = positiveCosts.length ? Math.min.apply(null, positiveCosts) : 0;
+  var maxPositiveCost = positiveCosts.length ? Math.max.apply(null, positiveCosts) : 0;
+  var maxAbsCost = Math.max.apply(null, months.map(function (m) { return Math.abs(m.cost); }));
+  function costColour(value) {
+    if (value < 0) return "#176B65";
+    var t = maxPositiveCost === minPositiveCost ? 0 :
+      (value - minPositiveCost) / (maxPositiveCost - minPositiveCost);
+    if (t <= 0.5) return lerpColour([111, 142, 82], [190, 166, 90], t * 2);
+    return lerpColour([190, 166, 90], [178, 58, 46], (t - 0.5) * 2);
   }
 
-  var METRICS = {
-    cost:  { label: "Net cost", title: "Total monthly EV charging cost", subtitle: "Positive bars are a cost; September's negative bar is a net credit in the tariff data.", fmt: function (m) { return (m.cost < 0 ? "\u2212\u00A3" : "\u00A3") + Math.abs(m.cost).toFixed(2); } },
-    price: { label: "Avg price", title: "Average EV charging price by month", subtitle: "The rate is the average half-hourly unit price paid for charging energy.", fmt: function (m) { return (m.avg_price < 0 ? "\u2212" : "") + Math.abs(m.avg_price).toFixed(1) + "p"; } },
-    neg:   { label: "Negative-price share", title: "Share of charging energy at negative prices", subtitle: "A higher bar means more of that month's charging fell in negative-price slots.", fmt: function (m) { return m.neg_pct + "%"; } }
-  };
-  var ORDER = ["cost", "price", "neg"];
+  var card = element("div", "imc-card");
+  var scroll = element("div", "imc-chart-scroll");
+  var grid = element("div", "imc-grid");
+  var columns = LABEL_WIDTH + "px repeat(" + months.length + ", minmax(" + MONTH_MIN_WIDTH + "px, 1fr))";
+  grid.style.minWidth = (LABEL_WIDTH + months.length * MONTH_MIN_WIDTH) + "px";
+  grid.style.gridTemplateColumns = columns;
+  var monthRow = element("div", "imc-row imc-month-row");
+  monthRow.style.gridTemplateColumns = columns;
+  monthRow.setAttribute("role", "group");
+  monthRow.setAttribute("aria-label", "Select a month");
+  var emptyLabel = element("div", "imc-row-label");
+  emptyLabel.setAttribute("aria-hidden", "true");
+  monthRow.appendChild(emptyLabel);
 
-  function valueFor(m, metric) {
-    if (metric === "cost") return m.cost;
-    if (metric === "price") return m.avg_price;
-    return m.neg_pct;
+  function makeMonthButton(m, index, className) {
+    var button = element("button", className);
+    button.type = "button";
+    button.setAttribute("aria-label", "Select " + monthName(m));
+    button.setAttribute("aria-pressed", index === selectedIndex ? "true" : "false");
+    button.addEventListener("click", function () { selectMonth(index); });
+    return button;
   }
-  function colourFor(m, metric) {
-    if (metric === "neg") return m.neg_pct > 0 ? "#4F8F5C" : "#EFEBE3";
-    return priceColour(m.avg_price); // cost + price keyed to avg price, as the static charts do
-  }
-
-  var current = "cost";
-  var selectedIndex = 0;
-
-  // --- build DOM ---
-  var card = document.createElement("div");
-  card.className = "imc-card";
-
-  var header = document.createElement("div");
-  header.className = "imc-header";
-  var hTitle = document.createElement("h3");
-  hTitle.className = "imc-title";
-  var hSub = document.createElement("p");
-  hSub.className = "imc-subtitle";
-  header.appendChild(hTitle);
-  header.appendChild(hSub);
-
-  // Toggle buttons live in the section head (outside the card), filled here.
-  var toggle = document.getElementById("imc-toggle-mount");
-  if (!toggle) return; // leave static charts visible
-  var toggleButtons = {};
-  ORDER.forEach(function (key) {
-    var b = document.createElement("button");
-    b.type = "button";
-    b.textContent = METRICS[key].label;
-    b.setAttribute("aria-pressed", key === current ? "true" : "false");
-    b.addEventListener("click", function () { setMetric(key); });
-    toggleButtons[key] = b;
-    toggle.appendChild(b);
+  months.forEach(function (m, i) {
+    var button = makeMonthButton(m, i, "imc-month-cell");
+    button.textContent = m.short + " " + m.ym.slice(2, 4);
+    monthRow.appendChild(button);
   });
+  selectableGroups.push(Array.prototype.slice.call(monthRow.querySelectorAll("button")));
 
-  var bars = document.createElement("div");
-  bars.className = "imc-bars";
-
-  var readout = document.createElement("div");
-  readout.className = "imc-readout";
-  readout.setAttribute("aria-live", "polite");
-
-  card.appendChild(header);
-  card.appendChild(bars);
-  card.appendChild(readout);
-  mount.appendChild(card);
-
-  function renderHeader() {
-    hTitle.textContent = METRICS[current].title;
-    hSub.textContent = METRICS[current].subtitle;
+  function makeRow(label, unit, trackClass, renderTrack) {
+    var row = element("div", "imc-row");
+    row.style.gridTemplateColumns = columns;
+    var rowLabel = element("div", "imc-row-label", label);
+    rowLabel.appendChild(element("span", "", unit));
+    row.appendChild(rowLabel);
+    var track = element("div", trackClass);
+    track.style.gridColumn = "2 / -1";
+    renderTrack(track);
+    row.appendChild(track);
+    return row;
   }
-
-  var barButtons = [];
-
-  function renderBars() {
-    bars.innerHTML = "";
-    barButtons = [];
-    var vmax = Math.max.apply(null, months.map(function (m) {
-      return Math.abs(valueFor(m, current));
-    }).concat([1e-9]));
-
-    months.forEach(function (m, i) {
-      var v = valueFor(m, current);
-      var btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "imc-bar";
-      btn.setAttribute("aria-pressed", i === selectedIndex ? "true" : "false");
-      btn.setAttribute("aria-label", m.month + " — " + METRICS[current].label + ": " + METRICS[current].fmt(m));
-
-      var val = document.createElement("span");
-      val.className = "imc-bar-value";
-      val.textContent = METRICS[current].fmt(m);
-
-      var fill = document.createElement("span");
-      fill.className = "imc-bar-fill";
-      var pct = Math.max(4, Math.round(180 * Math.abs(v) / vmax));
-      fill.style.height = pct + "px";
-      fill.style.background = colourFor(m, current);
-
-      var lab = document.createElement("span");
-      lab.className = "imc-bar-label";
-      lab.textContent = m.short;
-
-      btn.appendChild(val);
-      btn.appendChild(fill);
-      btn.appendChild(lab);
-      btn.addEventListener("click", function () { selectMonth(i); });
-      bars.appendChild(btn);
-      barButtons.push(btn);
+  function costCell(m, i) {
+    var button = makeMonthButton(m, i, "imc-cell");
+    button.setAttribute("aria-label", monthName(m) + " net cost " + money(m.cost));
+    button.appendChild(element("span", "imc-cell-value", money(m.cost)));
+    if (m.cost !== 0) {
+      var fill = element("span", "imc-cost-fill " + (m.cost < 0 ? "negative" : "positive"));
+      fill.style.height = Math.max(2, 36 * Math.abs(m.cost) / maxAbsCost) + "px";
+      fill.style.background = costColour(m.cost);
+      button.appendChild(fill);
+    }
+    return button;
+  }
+  function negativeCell(m, i) {
+    var button = makeMonthButton(m, i, "imc-cell");
+    button.setAttribute("aria-label", monthName(m) + " negative-price share " + m.neg_pct + "%");
+    button.appendChild(element("span", "imc-cell-value", m.neg_pct + "%"));
+    if (m.neg_pct > 0) {
+      var fill = element("span", "imc-neg-fill");
+      fill.style.height = Math.max(2, 42 * m.neg_pct / 100) + "px";
+      button.appendChild(fill);
+    }
+    return button;
+  }
+  function renderCostTrack(track) {
+    track.style.display = "grid";
+    track.style.gridTemplateColumns = "repeat(" + months.length + ", minmax(" + MONTH_MIN_WIDTH + "px, 1fr))";
+    months.forEach(function (m, i) { track.appendChild(costCell(m, i)); });
+    selectableGroups.push(Array.prototype.slice.call(track.querySelectorAll("button")));
+  }
+  function renderPriceTrack(track) {
+    var width = months.length * 100;
+    var height = 112;
+    var values = months.map(function (m) { return m.avg_price; });
+    var low = Math.min.apply(null, values.concat([0]));
+    var high = Math.max.apply(null, values.concat([0]));
+    if (low === high) { low = -1; high = 1; }
+    var padding = (high - low) * 0.12;
+    var range = high - low + padding * 2;
+    function pointY(value) { return 16 + (high + padding - value) / range * 76; }
+    var points = months.map(function (m, i) { return (i * 100 + 50) + "," + pointY(m.avg_price); });
+    var svg = svgElement("svg", {
+      "class": "imc-price-svg",
+      "viewBox": "0 0 " + width + " " + height,
+      "preserveAspectRatio": "none",
+      "aria-hidden": "true"
     });
+    var zeroY = pointY(0);
+    svg.appendChild(svgElement("line", { "class": "imc-price-zero", x1: 0, x2: width, y1: zeroY, y2: zeroY }));
+    svg.appendChild(svgElement("text", { "class": "imc-price-zero-label", x: 4, y: Math.max(11, zeroY - 5) }, "0p"));
+    svg.appendChild(svgElement("polyline", { "class": "imc-price-line", points: points.join(" ") }));
+    months.forEach(function (m, i) {
+      var x = i * 100 + 50;
+      var y = pointY(m.avg_price);
+      svg.appendChild(svgElement("circle", { "class": "imc-price-dot", cx: x, cy: y, r: 5 }));
+      svg.appendChild(svgElement("text", {
+        "class": "imc-price-value",
+        x: x,
+        y: y < 31 ? y + 18 : y - 9
+      }, price(m.avg_price)));
+    });
+    track.appendChild(svg);
+    var buttons = element("div", "imc-price-buttons");
+    buttons.style.gridTemplateColumns = "repeat(" + months.length + ", minmax(" + MONTH_MIN_WIDTH + "px, 1fr))";
+    months.forEach(function (m, i) {
+      var button = makeMonthButton(m, i, "imc-cell");
+      button.setAttribute("aria-label", monthName(m) + " average price " + price(m.avg_price) + " per kWh");
+      buttons.appendChild(button);
+    });
+    track.appendChild(buttons);
+    selectableGroups.push(Array.prototype.slice.call(buttons.querySelectorAll("button")));
   }
 
+  grid.appendChild(monthRow);
+  grid.appendChild(makeRow("Net cost", "\u00A3 per month", "imc-cost-track", renderCostTrack));
+  grid.appendChild(makeRow("Avg price", "p/kWh", "imc-price-track", renderPriceTrack));
+  grid.appendChild(makeRow("Negative share", "% of EV energy", "imc-neg-track", function (track) {
+    track.style.display = "grid";
+    track.style.gridTemplateColumns = "repeat(" + months.length + ", minmax(" + MONTH_MIN_WIDTH + "px, 1fr))";
+    months.forEach(function (m, i) { track.appendChild(negativeCell(m, i)); });
+    selectableGroups.push(Array.prototype.slice.call(track.querySelectorAll("button")));
+  }));
+  scroll.appendChild(grid);
+
+  var readout = element("div", "imc-readout");
+  readout.setAttribute("aria-live", "polite");
   function renderReadout() {
     var m = months[selectedIndex];
-    var costStr = (m.cost < 0 ? "\u2212\u00A3" : "\u00A3") + Math.abs(m.cost).toFixed(2) + (m.cost < 0 ? " (credit)" : "");
-    var rateStr = (m.avg_price < 0 ? "\u2212" : "") + Math.abs(m.avg_price).toFixed(1) + "p/kWh";
-    readout.innerHTML = "";
-    var head = document.createElement("div");
-    var mn = document.createElement("span");
-    mn.className = "imc-readout-month";
-    mn.textContent = m.month;
-    head.appendChild(mn);
-    var dl = document.createElement("dl");
-    [["Energy", m.energy.toFixed(1) + " kWh"],
-     ["Avg rate", rateStr],
-     ["Cost", costStr],
-     ["Negative share", m.neg_pct + "%"],
-     ["Miles", "~" + m.miles]
+    readout.textContent = "";
+    readout.appendChild(element("div", "imc-readout-month", monthName(m)));
+    var list = element("dl");
+    [
+      ["Energy", m.energy.toFixed(1) + " kWh", false],
+      ["Avg rate", price(m.avg_price) + "/kWh", true],
+      ["Cost", money(m.cost) + (m.cost < 0 ? " credit" : ""), true],
+      ["Negative share", m.neg_pct + "%", true],
+      ["Miles", "~" + Math.round(m.miles).toLocaleString("en-GB"), false]
     ].forEach(function (pair) {
-      var stat = document.createElement("div");
-      stat.className = "imc-stat";
-      var dt = document.createElement("dt"); dt.textContent = pair[0];
-      var dd = document.createElement("dd"); dd.textContent = pair[1];
-      stat.appendChild(dt); stat.appendChild(dd);
-      dl.appendChild(stat);
+      var stat = element("div", "imc-stat");
+      if (pair[2]) stat.classList.add("imc-stat-hidden");
+      stat.appendChild(element("dt", "", pair[0]));
+      stat.appendChild(element("dd", "", pair[1]));
+      list.appendChild(stat);
     });
-    readout.appendChild(head);
-    readout.appendChild(dl);
+    readout.appendChild(list);
   }
-
-  function setMetric(key) {
-    current = key;
-    ORDER.forEach(function (k) {
-      toggleButtons[k].setAttribute("aria-pressed", k === key ? "true" : "false");
-    });
-    renderHeader();
-    renderBars();
-  }
-
-  function selectMonth(i) {
-    selectedIndex = i;
-    barButtons.forEach(function (b, idx) {
-      b.setAttribute("aria-pressed", idx === i ? "true" : "false");
+  function selectMonth(index) {
+    selectedIndex = index;
+    selectableGroups.forEach(function (group) {
+      group.forEach(function (button, i) {
+        button.setAttribute("aria-pressed", i === index ? "true" : "false");
+      });
     });
     renderReadout();
   }
 
-  // --- activate: hide static, show interactive ---
-  if (staticWrap) staticWrap.classList.add("js-hidden");
-  mount.hidden = false;
-  if (toggle) toggle.hidden = false;
-  renderHeader();
-  renderBars();
   renderReadout();
+  card.appendChild(scroll);
+  card.appendChild(readout);
+  mount.appendChild(card);
+  mount.hidden = false;
+  if (staticWrap) staticWrap.classList.add("js-hidden");
 })();
 </script>
 <script>

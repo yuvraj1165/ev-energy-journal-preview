@@ -580,18 +580,25 @@
     padding:22px 20px 18px;
   }
   .imc-mobile-card{ display:none; }
-  .imc-mobile-select-wrap{ display:flex; flex-direction:column; gap:6px; margin-bottom:14px; }
-  .imc-mobile-select-wrap label{ color:var(--text-dim); font-size:11px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; }
-  .imc-mobile-select{
-    width:100%;
-    min-height:42px;
+  .imc-mobile-month-scroll{ overflow-x:auto; -webkit-overflow-scrolling:touch; overscroll-behavior-inline:contain; touch-action:pan-x; scroll-snap-type:x proximity; scrollbar-width:thin; scrollbar-color:var(--line) transparent; margin:0 -2px 14px; padding:2px; }
+  .imc-mobile-month-scroll::-webkit-scrollbar{ height:5px; }
+  .imc-mobile-month-scroll::-webkit-scrollbar-thumb{ background:var(--line); border-radius:3px; }
+  .imc-mobile-month-list{ display:flex; width:max-content; min-width:100%; gap:6px; }
+  .imc-mobile-month{
+    flex:0 0 60px;
+    min-height:38px;
     border:1px solid var(--line);
     border-radius:6px;
-    padding:8px 10px;
+    padding:5px 3px;
     background:var(--bg);
-    color:var(--text);
-    font:inherit;
+    color:var(--text-dim);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    cursor:pointer;
+    scroll-snap-align:center;
   }
+  .imc-mobile-month[aria-pressed="true"]{ border-color:var(--amber); box-shadow:0 0 0 1px var(--amber); background:var(--surface-2); color:var(--text); font-weight:600; }
+  .imc-mobile-month:focus-visible{ outline:2px solid var(--amber); outline-offset:2px; }
   .imc-mobile-kpis{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
   .imc-mobile-kpi{
     min-width:0;
@@ -600,12 +607,14 @@
     border-radius:7px;
     background:var(--surface-2);
   }
-  .imc-mobile-kpi dt{ color:var(--text-dim); font-size:11px; }
+  .imc-mobile-kpi dt{ display:flex; align-items:center; gap:6px; color:var(--text-dim); font-size:11px; }
+  .imc-kpi-icon{ width:18px; height:18px; flex:0 0 auto; color:var(--teal); fill:none; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; stroke-width:1.7; }
   .imc-mobile-kpi dd{ margin:4px 0 0; color:var(--text); font-family:'IBM Plex Mono',monospace; font-size:16px; font-weight:600; overflow-wrap:anywhere; }
   .imc-mobile-kpi .imc-kpi-secondary{ display:block; margin-top:3px; color:var(--text-dim); font-family:'IBM Plex Sans',sans-serif; font-size:11px; font-weight:400; }
   .imc-mobile-trend{ margin-top:16px; }
   .imc-mobile-trend h3{ margin:0 0 8px; color:var(--text); font-size:13px; font-weight:600; }
-  .imc-trend-grid{ display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:4px; }
+  .imc-trend-scroll{ overflow-x:auto; overscroll-behavior-inline:contain; }
+  .imc-trend-grid{ display:grid; width:100%; gap:4px; }
   .imc-trend-month{
     min-width:0;
     border:1px solid transparent;
@@ -616,12 +625,12 @@
     font-family:inherit;
     cursor:pointer;
   }
-  .imc-trend-month[aria-pressed="true"]{ border-color:var(--amber); background:var(--surface-2); }
-  .imc-trend-month:focus-visible,.imc-mobile-select:focus-visible{ outline:2px solid var(--amber); outline-offset:2px; }
+  .imc-trend-month[aria-pressed="true"]{ border-color:var(--amber); box-shadow:0 0 0 1px var(--amber); background:var(--surface-2); }
+  .imc-trend-month:focus-visible{ outline:2px solid var(--amber); outline-offset:2px; }
   .imc-trend-value{ display:block; overflow:hidden; font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; line-height:1.2; text-align:center; text-overflow:clip; white-space:nowrap; }
   .imc-trend-track{ position:relative; display:block; height:42px; margin:4px 0; }
-  .imc-trend-track::before{ position:absolute; top:50%; right:2px; left:2px; border-top:1px solid var(--line); content:""; }
-  .imc-trend-bar{ position:absolute; left:30%; width:40%; min-height:2px; border-radius:3px; }
+  .imc-trend-track::before{ position:absolute; top:50%; right:2px; left:2px; z-index:1; border-top:1px solid var(--line); content:""; }
+  .imc-trend-bar{ position:absolute; left:30%; z-index:0; width:40%; min-height:2px; border-radius:3px; }
   .imc-trend-bar.positive{ bottom:50%; border-radius:3px 3px 1px 1px; }
   .imc-trend-bar.negative{ top:50%; border-radius:1px 1px 3px 3px; }
   .imc-trend-label{ display:block; color:var(--text-dim); font-family:'IBM Plex Mono',monospace; font-size:10px; text-align:center; }
@@ -840,7 +849,7 @@
 </script>
 </head>
 <body>
-<div style="background:#B6542E;color:#fff;font:12px/1.4 monospace;padding:6px 10px;text-align:center;">PREVIEW of develop @ c40316d - not the live site</div>
+<div style="background:#B6542E;color:#fff;font:12px/1.4 monospace;padding:6px 10px;text-align:center;">PREVIEW of develop @ 5d6ba5b - not the live site</div>
 <div class="wrap">
 
   <header class="site">
@@ -1017,8 +1026,8 @@
     <div class="chart-section-head">
       <div class="chart-section-headings">
         <p class="takeaway-kicker">At a glance</p>
-        <h2 class="section-title" style="margin-bottom:8px;">One view, three measures</h2>
-        <p class="section-intro">Compare net cost, average rate and negative-price share together. Select a month to highlight it across all three rows and see its figures.</p>
+        <h2 class="section-title" style="margin-bottom:8px;">Monthly performance at a glance</h2>
+        <p class="section-intro">Choose a month to explore its cost, average price, negative-price share, energy and distance.</p>
       </div>
     </div>
     <div id="interactive-monthly-chart" hidden></div>
@@ -2225,6 +2234,36 @@
   function price(value) {
     return (value < 0 ? "\u2212" : "") + Math.abs(value).toFixed(1) + "p";
   }
+  function kpiIcon(name) {
+    var shapes = {
+      cost: [
+        ["circle", { cx: 12, cy: 12, r: 9 }],
+        ["path", { d: "M12 7v10m3-7.5c-.6-1-1.6-1.5-3-1.5-1.7 0-2.5.8-2.5 1.8 0 2.8 5.5 1.3 5.5 4.2 0 1.3-1.1 2-3 2-1.3 0-2.4-.5-3.1-1.5" }]
+      ],
+      averagePrice: [
+        ["path", { d: "M4 20h16M6 17v-5m6 5V7m6 10v-8" }]
+      ],
+      negativeShare: [
+        ["path", { d: "M11 3a9 9 0 1 0 10 10H11zM13 3v8h8a9 9 0 0 0-8-8z" }]
+      ],
+      energyDistance: [
+        ["path", { d: "M3 14v-3l2-4h13l3 4v3h-2m-14 0H3zm2 0h10m4 0h2v3h-3m-13-3v3h3" }],
+        ["circle", { cx: 7, cy: 17, r: 1.5 }],
+        ["circle", { cx: 17, cy: 17, r: 1.5 }],
+        ["path", { d: "m11 8-1 3h3l-1 3" }]
+      ]
+    };
+    var svg = svgElement("svg", {
+      "class": "imc-kpi-icon",
+      "viewBox": "0 0 24 24",
+      "aria-hidden": "true",
+      "focusable": "false"
+    });
+    shapes[name].forEach(function (shape) {
+      svg.appendChild(svgElement(shape[0], shape[1]));
+    });
+    return svg;
+  }
   function lerpColour(a, b, amount) {
     return "#" + a.map(function (value, i) {
       return Math.round(value + (b[i] - value) * amount).toString(16).padStart(2, "0");
@@ -2404,33 +2443,38 @@
     readout.appendChild(list);
   }
   var mobileCard = element("div", "imc-card imc-mobile-card");
-  var selectWrap = element("div", "imc-mobile-select-wrap");
-  var mobileLabel = element("label", "", "Month");
-  var mobileSelect = element("select", "imc-mobile-select");
-  mobileSelect.id = "imc-mobile-month";
-  mobileLabel.htmlFor = mobileSelect.id;
+  var mobileMonthScroll = element("div", "imc-mobile-month-scroll");
+  mobileMonthScroll.setAttribute("role", "group");
+  mobileMonthScroll.setAttribute("aria-label", "Select month");
+  var mobileMonthList = element("div", "imc-mobile-month-list");
+  var mobileMonthButtons = [];
   months.forEach(function (m, i) {
-    var option = element("option", "", monthName(m));
-    option.value = String(i);
-    mobileSelect.appendChild(option);
+    var button = element("button", "imc-mobile-month");
+    button.type = "button";
+    button.setAttribute("aria-label", "Select " + monthName(m));
+    button.setAttribute("aria-pressed", i === selectedIndex ? "true" : "false");
+    button.addEventListener("click", function () { selectMonth(i); });
+    button.textContent = m.short + " " + m.ym.slice(2, 4);
+    mobileMonthList.appendChild(button);
+    mobileMonthButtons.push(button);
   });
-  mobileSelect.addEventListener("change", function () {
-    selectMonth(Number(mobileSelect.value));
-  });
-  selectWrap.appendChild(mobileLabel);
-  selectWrap.appendChild(mobileSelect);
-  mobileCard.appendChild(selectWrap);
+  selectableGroups.push(mobileMonthButtons);
+  mobileMonthScroll.appendChild(mobileMonthList);
+  mobileCard.appendChild(mobileMonthScroll);
 
   var mobileKpis = element("dl", "imc-mobile-kpis");
   var mobileKpiValues = [];
   [
-    ["Net cost", "cost"],
-    ["Average price", "averagePrice"],
-    ["Negative share", "negativeShare"],
-    ["Energy & distance", "energyDistance"]
+    ["Net cost", "cost", "cost"],
+    ["Average price", "averagePrice", "averagePrice"],
+    ["Negative share", "negativeShare", "negativeShare"],
+    ["Energy & distance", "energyDistance", "energyDistance"]
   ].forEach(function (item) {
     var kpi = element("div", "imc-mobile-kpi");
-    kpi.appendChild(element("dt", "", item[0]));
+    var label = element("dt");
+    label.appendChild(kpiIcon(item[2]));
+    label.appendChild(element("span", "", item[0]));
+    kpi.appendChild(label);
     var value = element("dd");
     if (item[1] === "energyDistance") {
       var energyValue = element("span", "imc-kpi-primary");
@@ -2448,7 +2492,10 @@
 
   var mobileTrend = element("div", "imc-mobile-trend");
   mobileTrend.appendChild(element("h3", "", "Monthly net cost"));
+  var mobileTrendScroll = element("div", "imc-trend-scroll");
   var mobileTrendGrid = element("div", "imc-trend-grid");
+  mobileTrendGrid.style.gridTemplateColumns = "repeat(" + months.length + ", minmax(44px, 1fr))";
+  mobileTrendGrid.style.minWidth = (months.length * 44 + Math.max(0, months.length - 1) * 4) + "px";
   mobileTrendGrid.setAttribute("role", "group");
   mobileTrendGrid.setAttribute("aria-label", "Monthly net cost trend; select a month");
   var mobileTrendButtons = [];
@@ -2473,17 +2520,26 @@
     mobileTrendButtons.push(button);
   });
   selectableGroups.push(mobileTrendButtons);
-  mobileTrend.appendChild(mobileTrendGrid);
+  mobileTrendScroll.appendChild(mobileTrendGrid);
+  mobileTrend.appendChild(mobileTrendScroll);
   mobileCard.appendChild(mobileTrend);
 
   function renderMobileCard() {
     var m = months[selectedIndex];
-    mobileSelect.value = String(selectedIndex);
     mobileKpiValues[0].textContent = money(m.cost);
     mobileKpiValues[1].textContent = price(m.avg_price);
     mobileKpiValues[2].textContent = m.neg_pct + "%";
     mobileKpiValues[3].energy.textContent = m.energy.toLocaleString("en-GB", { maximumFractionDigits: 1 }) + " kWh";
     mobileKpiValues[3].miles.textContent = "≈ " + Math.round(m.miles).toLocaleString("en-GB") + " miles driven";
+    var selectedMonthButton = mobileMonthButtons[selectedIndex];
+    if (selectedMonthButton && mobileMonthScroll.clientWidth > 0) {
+      var left = selectedMonthButton.offsetLeft;
+      var right = left + selectedMonthButton.offsetWidth;
+      var visibleLeft = mobileMonthScroll.scrollLeft;
+      var visibleRight = visibleLeft + mobileMonthScroll.clientWidth;
+      if (left < visibleLeft) mobileMonthScroll.scrollLeft = left;
+      else if (right > visibleRight) mobileMonthScroll.scrollLeft = right - mobileMonthScroll.clientWidth;
+    }
   }
   function selectMonth(index) {
     selectedIndex = index;
@@ -2503,6 +2559,8 @@
   mount.appendChild(card);
   mount.appendChild(mobileCard);
   mount.hidden = false;
+  renderMobileCard();
+  window.addEventListener("resize", renderMobileCard);
   if (staticWrap) staticWrap.classList.add("js-hidden");
 })();
 </script>

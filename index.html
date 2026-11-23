@@ -619,7 +619,7 @@
     min-width:0;
     border:1px solid transparent;
     border-radius:5px;
-    padding:4px 1px 5px;
+    padding:4px 1px 1px;
     background:transparent;
     color:var(--text);
     font-family:inherit;
@@ -628,11 +628,11 @@
   .imc-trend-month[aria-pressed="true"]{ border-color:var(--amber); box-shadow:0 0 0 1px var(--amber); background:var(--surface-2); }
   .imc-trend-month:focus-visible{ outline:2px solid var(--amber); outline-offset:2px; }
   .imc-trend-value{ display:block; overflow:hidden; font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; line-height:1.2; text-align:center; text-overflow:clip; white-space:nowrap; }
-  .imc-trend-track{ position:relative; display:block; height:42px; margin:4px 0; }
-  .imc-trend-track::before{ position:absolute; top:50%; right:2px; left:2px; z-index:1; border-top:1px solid var(--line); content:""; }
+  .imc-trend-track{ position:relative; display:block; height:68px; margin:4px 0 0; }
+  .imc-trend-track::before{ position:absolute; top:72%; right:2px; left:2px; z-index:1; border-top:1px solid var(--line); content:""; }
   .imc-trend-bar{ position:absolute; left:30%; z-index:0; width:40%; min-height:2px; border-radius:3px; }
-  .imc-trend-bar.positive{ bottom:50%; border-radius:3px 3px 1px 1px; }
-  .imc-trend-bar.negative{ top:50%; border-radius:1px 1px 3px 3px; }
+  .imc-trend-bar.positive{ bottom:28%; border-radius:3px 3px 1px 1px; }
+  .imc-trend-bar.negative{ top:72%; border-radius:1px 1px 3px 3px; }
   .imc-trend-label{ display:block; color:var(--text-dim); font-family:'IBM Plex Mono',monospace; font-size:10px; text-align:center; }
   .chart-section-head{
     display:flex;
@@ -849,7 +849,7 @@
 </script>
 </head>
 <body>
-<div style="background:#B6542E;color:#fff;font:12px/1.4 monospace;padding:6px 10px;text-align:center;">PREVIEW of develop @ 5d6ba5b - not the live site</div>
+<div style="background:#B6542E;color:#fff;font:12px/1.4 monospace;padding:6px 10px;text-align:center;">PREVIEW of develop @ 77a2fea - not the live site</div>
 <div class="wrap">
 
   <header class="site">
@@ -2510,7 +2510,7 @@
     track.setAttribute("aria-hidden", "true");
     if (m.cost !== 0) {
       var bar = element("span", "imc-trend-bar " + (m.cost < 0 ? "negative" : "positive"));
-      bar.style.height = Math.max(2, 20 * Math.abs(m.cost) / maxAbsCost) + "px";
+      bar.style.height = Math.max(2, 44 * Math.abs(m.cost) / maxAbsCost) + "px";
       bar.style.background = costColour(m.cost);
       track.appendChild(bar);
     }

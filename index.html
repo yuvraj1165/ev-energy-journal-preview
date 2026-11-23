@@ -314,6 +314,17 @@
   .hh-card.hl .num{color:var(--amber);}
   .hh-card .cap{font-family:'IBM Plex Sans',sans-serif;font-size:12px;line-height:1.45;color:var(--text-dim);margin-top:6px;}
   .hh-card .cap b{font-weight:600;color:var(--text);}
+  .flexibility-list{margin:-2px 0 14px;padding-left:22px;color:var(--body-copy);font-size:16px;line-height:1.5;}
+  .flexibility-list li{margin:0 0 7px;padding-left:3px;}
+  .flexibility-list li:last-child{margin-bottom:0;}
+  .flexibility-list strong{color:var(--text);font-weight:600;}
+  .method-list{margin:0 0 13px;padding-left:22px;color:var(--body-copy);font-size:16px;line-height:1.5;}
+  .method-list li{margin:0 0 7px;padding-left:3px;}
+  .method-list li:last-child{margin-bottom:0;}
+  .price-tier-list{display:grid;gap:8px;margin:0 0 14px;}
+  .price-tier-row{display:grid;grid-template-columns:minmax(145px,auto) 1fr;gap:8px 14px;align-items:baseline;padding:10px 12px;border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:6px;background:var(--surface-2);}
+  .price-tier-row strong{color:var(--text);font-weight:600;}
+  @media(max-width:520px){.price-tier-row{grid-template-columns:1fr;gap:2px;}}
   @media (max-width:760px){
     .hh-cards{grid-template-columns:repeat(2,minmax(0,1fr));}
     .hh-card .num{font-size:21px;}
@@ -568,6 +579,52 @@
     border-radius:var(--radius);
     padding:22px 20px 18px;
   }
+  .imc-mobile-card{ display:none; }
+  .imc-mobile-select-wrap{ display:flex; flex-direction:column; gap:6px; margin-bottom:14px; }
+  .imc-mobile-select-wrap label{ color:var(--text-dim); font-size:11px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; }
+  .imc-mobile-select{
+    width:100%;
+    min-height:42px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:8px 10px;
+    background:var(--bg);
+    color:var(--text);
+    font:inherit;
+  }
+  .imc-mobile-kpis{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+  .imc-mobile-kpi{
+    min-width:0;
+    padding:12px;
+    border:1px solid var(--line);
+    border-radius:7px;
+    background:var(--surface-2);
+  }
+  .imc-mobile-kpi dt{ color:var(--text-dim); font-size:11px; }
+  .imc-mobile-kpi dd{ margin:4px 0 0; color:var(--text); font-family:'IBM Plex Mono',monospace; font-size:16px; font-weight:600; overflow-wrap:anywhere; }
+  .imc-mobile-kpi .imc-kpi-secondary{ display:block; margin-top:3px; color:var(--text-dim); font-family:'IBM Plex Sans',sans-serif; font-size:11px; font-weight:400; }
+  .imc-mobile-trend{ margin-top:16px; }
+  .imc-mobile-trend h3{ margin:0 0 8px; color:var(--text); font-size:13px; font-weight:600; }
+  .imc-trend-grid{ display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:4px; }
+  .imc-trend-month{
+    min-width:0;
+    border:1px solid transparent;
+    border-radius:5px;
+    padding:4px 1px 5px;
+    background:transparent;
+    color:var(--text);
+    font-family:inherit;
+    cursor:pointer;
+  }
+  .imc-trend-month[aria-pressed="true"]{ border-color:var(--amber); background:var(--surface-2); }
+  .imc-trend-month:focus-visible,.imc-mobile-select:focus-visible{ outline:2px solid var(--amber); outline-offset:2px; }
+  .imc-trend-value{ display:block; overflow:hidden; font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; line-height:1.2; text-align:center; text-overflow:clip; white-space:nowrap; }
+  .imc-trend-track{ position:relative; display:block; height:42px; margin:4px 0; }
+  .imc-trend-track::before{ position:absolute; top:50%; right:2px; left:2px; border-top:1px solid var(--line); content:""; }
+  .imc-trend-bar{ position:absolute; left:30%; width:40%; min-height:2px; border-radius:3px; }
+  .imc-trend-bar.positive{ bottom:50%; border-radius:3px 3px 1px 1px; }
+  .imc-trend-bar.negative{ top:50%; border-radius:1px 1px 3px 3px; }
+  .imc-trend-label{ display:block; color:var(--text-dim); font-family:'IBM Plex Mono',monospace; font-size:10px; text-align:center; }
   .chart-section-head{
     display:flex;
     justify-content:space-between;
@@ -623,6 +680,13 @@
     font-family:'IBM Plex Mono', monospace;
     font-size:11px;
     color:var(--text-dim);
+  }
+  .imc-month-label-mobile{ display:none; }
+  @media(max-width:620px){
+    .imc-desktop-chart{ display:none; }
+    .imc-mobile-card{ display:block; }
+    .imc-month-label-desktop{ display:none; }
+    .imc-month-label-mobile{ display:inline; }
   }
   .imc-month-cell[aria-pressed="true"]{ color:var(--text); font-weight:600; }
   .imc-cell[aria-pressed="true"],
@@ -776,7 +840,7 @@
 </script>
 </head>
 <body>
-<div style="background:#B6542E;color:#fff;font:12px/1.4 monospace;padding:6px 10px;text-align:center;">PREVIEW of develop @ cd3d76a - not the live site</div>
+<div style="background:#B6542E;color:#fff;font:12px/1.4 monospace;padding:6px 10px;text-align:center;">PREVIEW of develop @ c40316d - not the live site</div>
 <div class="wrap">
 
   <header class="site">
@@ -1051,7 +1115,11 @@
   <section id="how-it-works">
     <p class="takeaway-kicker">The basics</p>
     <h2 class="section-title">So, how does this actually work?</h2>
-    <p>Octopus Agile changes its electricity price every 30 minutes, giving 48 different half-hourly prices across the day, and the next day's prices are published each afternoon at around 4pm. The Andersen can then use a price ceiling to decide when charging should take place — it doesn't need me sitting there monitoring the market. If the price falls below the threshold, it charges. If the price is above it, it waits.</p>
+    <ul class="flexibility-list">
+      <li>Octopus Agile has a different electricity price for each half-hour, with 48 prices across the day.</li>
+      <li>The next day's prices are usually published around 4pm.</li>
+      <li>My Andersen charger uses a price ceiling: it charges when the price is below my limit and waits when it's above it.</li>
+    </ul>
     <p>And if the price goes negative? That's when things get particularly interesting. During a negative-price period, the electricity unit price is below £0/kWh — in simple terms, the wholesale market is effectively paying for consumption during that period. For an EV, which can shift a large chunk of its electricity use to another time, that's a very useful opportunity.</p>
     <p>Here's a real day of my own prices (inc. VAT) and what I'd actually do with them:</p>
     <table class="example">
@@ -1069,9 +1137,11 @@
     <details class="aside">
       <summary>How I think about the price tiers</summary>
       <div class="inner">
-        <p style="margin:0 0 14px;"><strong style="color:var(--text);">60p+/kWh</strong> — a public rapid charger. This is the cost I'm trying to avoid.</p>
-        <p style="margin:0 0 14px;"><strong style="color:var(--text);">Around 7p/kWh or below</strong> — genuinely cheap, but I only take it if the car needs charge now and I can't wait for a better window. It's my "can't-wait" fallback, not the plan.</p>
-        <p style="margin:0 0 14px;"><strong style="color:var(--text);">0p/kWh or below</strong> — the sweet spot. I plan charging into these windows, and sometimes the price is negative, so I'm actually paid to fill the battery.</p>
+        <div class="price-tier-list">
+          <div class="price-tier-row"><strong>60p+/kWh</strong><span>A public rapid charger — the cost I'm trying to avoid.</span></div>
+          <div class="price-tier-row"><strong>Around 7p/kWh or below</strong><span>Genuinely cheap, but my "can't-wait" fallback if the car needs charge now and I can't wait for a better window.</span></div>
+          <div class="price-tier-row"><strong>0p/kWh or below</strong><span>The sweet spot: I plan charging into these windows, and sometimes the price is negative, so I'm paid to fill the battery.</span></div>
+        </div>
         <p style="margin:0;">So the question isn't "is 5p cheap?" — of course it is. It's "why pay 5p when, a bit of patience later, the same energy is free or negative?" The 7p line is just my limit for when patience isn't an option.</p>
       </div>
     </details>
@@ -1152,8 +1222,11 @@
       </div>
     </dl>
     <p>The EV's home charging cost £<!--STAT:ev_cost_total-->67.23<!--/STAT--> over the same period.</p>
-    <p>The important difference isn't that the car's electricity is somehow different from the house's. It's that the EV gives me something most household use doesn't: <strong>flexibility</strong>. Most consumption happens when it happens — the fridge doesn't care what the Agile price is, and neither do the lights. Cooking, computers and televisions all have to run when I need them.</p>
-    <p>The EV is different. If I need 20 or 30 kWh in the battery, I generally don't care whether it goes in tonight, tomorrow morning or tomorrow afternoon — only that the car's charged when I need to drive it. That flexibility is what lets the charging load slide towards the cheapest periods, and it's where the saving comes from.</p>
+    <ul class="flexibility-list">
+      <li>Household use is mostly inflexible: the fridge, lights, cooking, computers and televisions run when they need to.</li>
+      <li>An EV adds <strong>flexibility</strong>: if I need 20 or 30 kWh, it can charge tonight, tomorrow morning or tomorrow afternoon — as long as it's ready when I need to drive.</li>
+      <li>That flexibility lets charging slide towards cheaper periods, so the EV can make the most of Agile prices.</li>
+    </ul>
     <details class="aside"><summary>See the month-by-month household table</summary><div class="inner">
     <!-- BEGIN:hh_table -->
     <div style="overflow-x:auto;">
@@ -2027,21 +2100,34 @@
     <details class="aside">
       <summary>Is the £<!--STAT:ev_cost_total-->67.23<!--/STAT--> an estimate?</summary>
       <div class="inner">
-        <p style="margin:0;">No. That £<!--STAT:ev_cost_total-->67.23<!--/STAT--> covers <!--STAT:ev_kwh_total-->1,018<!--/STAT--> kWh of home charging across <!--STAT:months_tracked-->6<!--/STAT--> months, and it isn't based on an assumed rate — it's built from the actual half-hourly Agile prices tied to the electricity my charger used. That distinction matters on Agile, because multiplying total kWh by a single average rate can give a very different, misleading answer. Monthly figures are each rounded before display, so they won't always sum exactly to the <!--STAT:months_word-->six<!--/STAT-->-month total; the total itself is calculated from the unrounded underlying data.</p>
+        <p style="margin:0 0 10px;">No. The total is based on actual charging and prices:</p>
+        <ul class="method-list">
+          <li>£<!--STAT:ev_cost_total-->67.23<!--/STAT--> covers <!--STAT:ev_kwh_total-->1,018<!--/STAT--> kWh of home charging across <!--STAT:months_tracked-->6<!--/STAT--> months. It's built from the actual half-hourly Agile prices tied to the electricity my charger used, not an assumed rate.</li>
+          <li>On Agile, multiplying total kWh by a single average rate can give a very different, misleading answer.</li>
+          <li>Monthly figures are each rounded before display, so they won't always sum exactly to the <!--STAT:months_word-->six<!--/STAT-->-month total. The total itself is calculated from the unrounded underlying data.</li>
+        </ul>
       </div>
     </details>
     <details class="aside">
       <summary>Does it include standing charges or public charging?</summary>
       <div class="inner">
-        <p style="margin:0 0 12px;">No. It's the net unit-energy cost of <strong>home EV charging only</strong>. Household standing charges, public rapid charging, insurance, servicing, tyres and depreciation are all excluded. The household electricity comparison above is a separate figure with its own scope.</p>
-        <p style="margin:0;">On longer trips I do use public rapid chargers, and those sessions aren't in this total — they'd lift the real per-mile cost of running the car. What this measures is specifically what home charging on Agile costs, which is where the car gets the overwhelming majority of its energy.</p>
+        <p style="margin:0 0 10px;">No. This measures the cost of home charging on Agile:</p>
+        <ul class="method-list">
+          <li>It's the net unit-energy cost of <strong>home EV charging only</strong>.</li>
+          <li>Household standing charges, public rapid charging, insurance, servicing, tyres and depreciation are excluded. The household electricity comparison above is a separate figure with its own scope.</li>
+          <li>Public rapid-charging sessions on longer trips aren't in this total; including them would lift the real per-mile cost of running the car. Home charging on Agile supplies the overwhelming majority of the car's energy.</li>
+        </ul>
       </div>
     </details>
     <details class="aside">
       <summary>How reliable are the figures, and how were the missed slots counted?</summary>
       <div class="inner">
-        <p style="margin:0 0 12px;">EV energy is metered directly by the home charger, with every half-hour priced at the real Octopus Agile rate, grouped by calendar month. April runs from the 13th only, since that's when this account joined Agile. Figures are aggregated and rounded from the underlying half-hourly data and cross-checked against Octopus billing statements for <!--STAT:period-->April–September 2026<!--/STAT-->.</p>
-        <p style="margin:0;">On the missed negative slots: 37% of missed office-day slots and 66% of missed weekend slots followed a large charge in the prior day or two, suggesting the battery was often already topped up rather than the car simply being away. Of the ten biggest of those prior top-ups, only four were at positive rates, averaging just 3.1p — the rest were themselves at negative or near-zero prices.</p>
+        <ul class="method-list">
+          <li>EV energy is metered directly by the home charger. Every half-hour is priced at the real Octopus Agile rate, then grouped by calendar month.</li>
+          <li>April runs from the 13th only, since that's when this account joined Agile. Figures are aggregated and rounded from the underlying half-hourly data, then cross-checked against Octopus billing statements for <!--STAT:period-->April–September 2026<!--/STAT-->.</li>
+          <li>Of missed slots, 37% on office days and 66% on weekends followed a large charge in the prior day or two. That suggests the battery was often already topped up rather than the car simply being away.</li>
+          <li>Of the ten biggest prior top-ups, only four were at positive rates, averaging 3.1p; the rest were at negative or near-zero prices.</li>
+        </ul>
       </div>
     </details>
   </section>
@@ -2079,8 +2165,8 @@
 </div>
 
 <script>
-/* Progressive enhancement: show three aligned monthly measures from #tracker-data.
-   The tracker-patched static SVGs stay visible unless valid data renders successfully. */
+/* Progressive enhancement: render the desktop chart and mobile summary from #tracker-data.
+   Keep the tracker-patched static charts visible unless both enhanced views render. */
 (function () {
   "use strict";
   var dataEl = document.getElementById("tracker-data");
@@ -2116,7 +2202,7 @@
 
   var SVG_NS = "http://www.w3.org/2000/svg";
   var LABEL_WIDTH = 112;
-  var MONTH_MIN_WIDTH = 78;
+  var MONTH_MIN_WIDTH = window.innerWidth <= 620 ? 56 : 78;
   var selectedIndex = months.length - 1;
   var selectableGroups = [];
 
@@ -2156,7 +2242,7 @@
     return lerpColour([190, 166, 90], [178, 58, 46], (t - 0.5) * 2);
   }
 
-  var card = element("div", "imc-card");
+  var card = element("div", "imc-card imc-desktop-chart");
   var scroll = element("div", "imc-chart-scroll");
   var grid = element("div", "imc-grid");
   var columns = LABEL_WIDTH + "px repeat(" + months.length + ", minmax(" + MONTH_MIN_WIDTH + "px, 1fr))";
@@ -2180,7 +2266,8 @@
   }
   months.forEach(function (m, i) {
     var button = makeMonthButton(m, i, "imc-month-cell");
-    button.textContent = m.short + " " + m.ym.slice(2, 4);
+    button.appendChild(element("span", "imc-month-label-desktop", m.short + " " + m.ym.slice(2, 4)));
+    button.appendChild(element("span", "imc-month-label-mobile", m.short));
     monthRow.appendChild(button);
   });
   selectableGroups.push(Array.prototype.slice.call(monthRow.querySelectorAll("button")));
@@ -2278,6 +2365,20 @@
     months.forEach(function (m, i) { track.appendChild(negativeCell(m, i)); });
     selectableGroups.push(Array.prototype.slice.call(track.querySelectorAll("button")));
   }));
+  function updateMonthColumns() {
+    var monthWidth = window.innerWidth <= 620 ? 56 : 78;
+    if (monthWidth === MONTH_MIN_WIDTH) return;
+    MONTH_MIN_WIDTH = monthWidth;
+    var columns = LABEL_WIDTH + "px repeat(" + months.length + ", minmax(" + MONTH_MIN_WIDTH + "px, 1fr))";
+    grid.style.minWidth = (LABEL_WIDTH + months.length * MONTH_MIN_WIDTH) + "px";
+    grid.style.gridTemplateColumns = columns;
+    var rows = grid.querySelectorAll(".imc-row");
+    for (var i = 0; i < rows.length; i++) rows[i].style.gridTemplateColumns = columns;
+    var tracks = grid.querySelectorAll(".imc-cost-track, .imc-neg-track, .imc-price-buttons");
+    var trackColumns = "repeat(" + months.length + ", minmax(" + MONTH_MIN_WIDTH + "px, 1fr))";
+    for (var j = 0; j < tracks.length; j++) tracks[j].style.gridTemplateColumns = trackColumns;
+  }
+  window.addEventListener("resize", updateMonthColumns);
   scroll.appendChild(grid);
 
   var readout = element("div", "imc-readout");
@@ -2302,6 +2403,88 @@
     });
     readout.appendChild(list);
   }
+  var mobileCard = element("div", "imc-card imc-mobile-card");
+  var selectWrap = element("div", "imc-mobile-select-wrap");
+  var mobileLabel = element("label", "", "Month");
+  var mobileSelect = element("select", "imc-mobile-select");
+  mobileSelect.id = "imc-mobile-month";
+  mobileLabel.htmlFor = mobileSelect.id;
+  months.forEach(function (m, i) {
+    var option = element("option", "", monthName(m));
+    option.value = String(i);
+    mobileSelect.appendChild(option);
+  });
+  mobileSelect.addEventListener("change", function () {
+    selectMonth(Number(mobileSelect.value));
+  });
+  selectWrap.appendChild(mobileLabel);
+  selectWrap.appendChild(mobileSelect);
+  mobileCard.appendChild(selectWrap);
+
+  var mobileKpis = element("dl", "imc-mobile-kpis");
+  var mobileKpiValues = [];
+  [
+    ["Net cost", "cost"],
+    ["Average price", "averagePrice"],
+    ["Negative share", "negativeShare"],
+    ["Energy & distance", "energyDistance"]
+  ].forEach(function (item) {
+    var kpi = element("div", "imc-mobile-kpi");
+    kpi.appendChild(element("dt", "", item[0]));
+    var value = element("dd");
+    if (item[1] === "energyDistance") {
+      var energyValue = element("span", "imc-kpi-primary");
+      var milesValue = element("span", "imc-kpi-secondary");
+      value.appendChild(energyValue);
+      value.appendChild(milesValue);
+      mobileKpiValues.push({ energy: energyValue, miles: milesValue });
+    } else {
+      mobileKpiValues.push(value);
+    }
+    kpi.appendChild(value);
+    mobileKpis.appendChild(kpi);
+  });
+  mobileCard.appendChild(mobileKpis);
+
+  var mobileTrend = element("div", "imc-mobile-trend");
+  mobileTrend.appendChild(element("h3", "", "Monthly net cost"));
+  var mobileTrendGrid = element("div", "imc-trend-grid");
+  mobileTrendGrid.setAttribute("role", "group");
+  mobileTrendGrid.setAttribute("aria-label", "Monthly net cost trend; select a month");
+  var mobileTrendButtons = [];
+  months.forEach(function (m, i) {
+    var button = element("button", "imc-trend-month");
+    button.type = "button";
+    button.setAttribute("aria-label", monthName(m) + " net cost " + money(m.cost));
+    button.setAttribute("aria-pressed", i === selectedIndex ? "true" : "false");
+    button.addEventListener("click", function () { selectMonth(i); });
+    button.appendChild(element("span", "imc-trend-value", money(m.cost)));
+    var track = element("span", "imc-trend-track");
+    track.setAttribute("aria-hidden", "true");
+    if (m.cost !== 0) {
+      var bar = element("span", "imc-trend-bar " + (m.cost < 0 ? "negative" : "positive"));
+      bar.style.height = Math.max(2, 20 * Math.abs(m.cost) / maxAbsCost) + "px";
+      bar.style.background = costColour(m.cost);
+      track.appendChild(bar);
+    }
+    button.appendChild(track);
+    button.appendChild(element("span", "imc-trend-label", m.short));
+    mobileTrendGrid.appendChild(button);
+    mobileTrendButtons.push(button);
+  });
+  selectableGroups.push(mobileTrendButtons);
+  mobileTrend.appendChild(mobileTrendGrid);
+  mobileCard.appendChild(mobileTrend);
+
+  function renderMobileCard() {
+    var m = months[selectedIndex];
+    mobileSelect.value = String(selectedIndex);
+    mobileKpiValues[0].textContent = money(m.cost);
+    mobileKpiValues[1].textContent = price(m.avg_price);
+    mobileKpiValues[2].textContent = m.neg_pct + "%";
+    mobileKpiValues[3].energy.textContent = m.energy.toLocaleString("en-GB", { maximumFractionDigits: 1 }) + " kWh";
+    mobileKpiValues[3].miles.textContent = "≈ " + Math.round(m.miles).toLocaleString("en-GB") + " miles driven";
+  }
   function selectMonth(index) {
     selectedIndex = index;
     selectableGroups.forEach(function (group) {
@@ -2310,12 +2493,15 @@
       });
     });
     renderReadout();
+    renderMobileCard();
   }
 
   renderReadout();
+  renderMobileCard();
   card.appendChild(scroll);
   card.appendChild(readout);
   mount.appendChild(card);
+  mount.appendChild(mobileCard);
   mount.hidden = false;
   if (staticWrap) staticWrap.classList.add("js-hidden");
 })();
